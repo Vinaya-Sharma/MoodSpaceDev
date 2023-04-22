@@ -14,12 +14,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Router */ "./src/popup/Router.tsx");
+/* harmony import */ var _firebaseApp__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./firebaseApp */ "./src/popup/firebaseApp.tsx");
 
 
 function Popup() {
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "w-96 max-w-96 overflow-scroll flex" },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Router__WEBPACK_IMPORTED_MODULE_1__["default"], null)));
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_firebaseApp__WEBPACK_IMPORTED_MODULE_1__["default"], null)));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Popup);
 
@@ -817,6 +817,73 @@ const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos }) => {
 
 /***/ }),
 
+/***/ "./src/popup/firebaseApp.tsx":
+/*!***********************************!*\
+  !*** ./src/popup/firebaseApp.tsx ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "auth": () => (/* binding */ auth),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "firebase": () => (/* binding */ firebase)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var firebase_app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! firebase/app */ "./node_modules/firebase/app/dist/esm/index.esm.js");
+/* harmony import */ var firebase_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! firebase/auth */ "./node_modules/firebase/auth/dist/esm/index.esm.js");
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./const */ "./src/popup/const.js");
+/* harmony import */ var _Router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Router */ "./src/popup/Router.tsx");
+// index.js
+
+
+
+
+
+const firebase = (0,firebase_app__WEBPACK_IMPORTED_MODULE_1__.initializeApp)(_const__WEBPACK_IMPORTED_MODULE_3__.FIREBASE_CONFIG);
+const auth = (0,firebase_auth__WEBPACK_IMPORTED_MODULE_2__.getAuth)(firebase);
+const FirebaseApp = (props) => {
+    const [user, setUser] = react__WEBPACK_IMPORTED_MODULE_0___default().useState(undefined);
+    const signIn = (e) => {
+        e.preventDefault();
+        chrome.identity.getAuthToken({ interactive: true }, (token) => {
+            if (chrome.runtime.lastError || !token) {
+                alert(`SSO ended with an error: ${JSON.stringify(chrome.runtime.lastError)}`);
+                return;
+            }
+            (0,firebase_auth__WEBPACK_IMPORTED_MODULE_2__.signInWithCredential)(auth, firebase_auth__WEBPACK_IMPORTED_MODULE_2__.GoogleAuthProvider.credential(null, token))
+                .then((res) => {
+                console.log("signed in!");
+            })
+                .catch((err) => {
+                alert(`SSO ended with an error: ${err}`);
+            });
+        });
+    };
+    react__WEBPACK_IMPORTED_MODULE_0___default().useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+            setUser(user && user.uid ? user : null);
+        });
+    }, []);
+    if (undefined === user)
+        return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "Loading...");
+    //return this when there is a user
+    if (user != null)
+        return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null,
+                "Signed in as ",
+                user.email),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { onClick: auth.signOut.bind(auth) }, "Sign Out?"),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Router__WEBPACK_IMPORTED_MODULE_4__["default"], null)));
+    //return this when there is no user
+    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { onClick: signIn }, "Sign In with Google");
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FirebaseApp);
+
+
+/***/ }),
+
 /***/ "./src/popup/index.tsx":
 /*!*****************************!*\
   !*** ./src/popup/index.tsx ***!
@@ -836,7 +903,6 @@ __webpack_require__.r(__webpack_exports__);
 function init() {
     const appContainer = document.createElement("div");
     document.body.appendChild(appContainer);
-    console.log("jfkcnjgdhdndmoccolfpndjncofeoeoh");
     if (!appContainer) {
         throw new Error("Cannot find appContainer");
     }
@@ -844,6 +910,29 @@ function init() {
     root.render(react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Popup__WEBPACK_IMPORTED_MODULE_3__["default"], null));
 }
 init();
+
+
+/***/ }),
+
+/***/ "./src/popup/const.js":
+/*!****************************!*\
+  !*** ./src/popup/const.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "FIREBASE_CONFIG": () => (/* binding */ FIREBASE_CONFIG)
+/* harmony export */ });
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyBI1NzI4Sn3a2zOuvq9XtRylsBLeYl-GY8",
+  authDomain: "moodspace-383910.firebaseapp.com",
+  projectId: "moodspace-383910",
+  storageBucket: "moodspace-383910.appspot.com",
+  messagingSenderId: "824586914859",
+  appId: "1:824586914859:web:a0af099ff3048822f3ee6e",
+  measurementId: "G-NE1NCDL079",
+};
 
 
 /***/ })
@@ -1037,7 +1126,7 @@ init();
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_css-loader_dist_runtime_api_js-node_modules_css-loader_dist_runtime_sour-b53f7e","vendors-node_modules_date-fns_esm_format_index_js-node_modules_react-icons_bs_index_esm_js-no-0e35f6","src_assets_css_tailwind_css"], () => (__webpack_require__("./src/popup/index.tsx")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_css-loader_dist_runtime_api_js-node_modules_css-loader_dist_runtime_sour-b53f7e","vendors-node_modules_date-fns_esm_format_index_js-node_modules_react-icons_bs_index_esm_js-no-4d0848","src_assets_css_tailwind_css"], () => (__webpack_require__("./src/popup/index.tsx")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

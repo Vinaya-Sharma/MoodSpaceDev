@@ -6,7 +6,6 @@ import Popup from "./Popup";
 function init() {
   const appContainer = document.createElement("div");
   document.body.appendChild(appContainer);
-  console.log(process.env.REACT_APP_ID);
 
   if (!appContainer) {
     throw new Error("Cannot find appContainer");
