@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
+import { doc, setDoc, writeBatch } from "firebase/firestore";
 
-const Journal = ({ currentDay, setJournalByDay, journalByDay }) => {
+const Journal = ({ currentDay, setJournalByDay, journalByDay, user, db }) => {
+  console.log("data here is", journalByDay);
   const [journalInput, setJournalInput] = useState(
     journalByDay[format(currentDay, "yyyy-MM-dd")]
       ? journalByDay[format(currentDay, "yyyy-MM-dd")].content
@@ -35,14 +37,42 @@ const Journal = ({ currentDay, setJournalByDay, journalByDay }) => {
     setJournalInput(e.target.value);
   };
 
-  const handleSaveEntry = () => {
-    setJournalByDay((prevJournals) => ({
-      ...prevJournals,
+  const handleSaveEntry = async () => {
+    const newJournal = {
+      ...journalByDay,
       [format(currentDay, "yyyy-MM-dd")]: {
         title: format(currentDay, "EEEE, MMMM d, yyyy"),
         content: journalInput,
       },
-    }));
+    };
+    setJournalByDay(newJournal);
+
+    console.log(journalByDay);
+    const batch = writeBatch(db);
+
+    Object.keys(newJournal).forEach((date) => {
+      const journalRef = doc(db, "users", user.email, "journals", date);
+      batch.set(journalRef, { ...newJournal[date] });
+    });
+
+    await batch.commit();
+    console.log("Journals written successfully");
+  };
+
+  // setting journals
+  const writejournalstodatabase = async () => {
+    console.log("running..");
+    try {
+      const batch = writeBatch(db);
+      Object.keys(journalByDay).forEach((date) => {
+        const journalref = doc(db, "users", user.email, "journals", date);
+        batch.set(journalref, { journal: journalByDay[date] });
+      });
+      await batch.commit();
+      console.log("Documents written successfully");
+    } catch (e) {
+      console.error("Error adding documents: ", e);
+    }
   };
 
   const getJournalByDate = (date) => {

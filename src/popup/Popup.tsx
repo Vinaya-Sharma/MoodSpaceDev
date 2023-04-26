@@ -4,9 +4,8 @@ import FirebaseApp from "./firebaseApp";
 
 function Popup() {
   return (
-    <div className="w-96 max-w-96 overflow-scroll flex">
+    <div className="w-96 min-h-[400px] max-w-96 overflow-scroll flex">
       <FirebaseApp />
-      {/* <Navigation /> */}
     </div>
   );
 }

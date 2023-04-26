@@ -2,24 +2,103 @@ import React, { useState, useEffect } from "react";
 import Journal from "../features/Journal";
 import TodoComp from "../features/TodoComp";
 import { format } from "date-fns";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  setDoc,
+  updateDoc,
+  writeBatch,
+} from "firebase/firestore";
 
-const Intentions = () => {
+const Intentions = ({ db, user }) => {
   const [currentDay, setCurrentDay] = useState(new Date());
-  const [journalByDay, setJournalByDay] = useState(
-    JSON.parse(localStorage.getItem("journals")) || {}
-  );
-  const [todosData, setTodosData] = useState(
-    JSON.parse(localStorage.getItem("todos")) || {}
-  );
+
+  // getting journals + todos
+  const [journalByDay, setJournalByDay] = useState({});
+  const [todosData, setTodosData] = useState({});
   const [showJournal, setShowJournal] = useState(false);
 
+  const gettododata = async () => {
+    const todosref = collection(db, "users", user.email, "todos");
+    const unsubscribe = onSnapshot(todosref, (querySnapshot) => {
+      const todosbyday = {};
+      querySnapshot.forEach((doc) => {
+        const date = doc.id;
+        const mood = doc.data().date;
+        todosbyday[date] = mood;
+      });
+      console.log(todosbyday);
+      setTodosData(todosbyday);
+    });
+    return unsubscribe;
+  };
+
+  // getting journal
   useEffect(() => {
-    localStorage.setItem("journals", JSON.stringify(journalByDay));
-  }, [journalByDay]);
+    getjournaldata();
+    gettododata();
+  }, []);
+
+  const getjournaldata = async () => {
+    const journalsbydayjournalref = collection(
+      db,
+      "users",
+      user.email,
+      "journals"
+    );
+    const unsubscribe = onSnapshot(journalsbydayjournalref, (querySnapshot) => {
+      const journalsbyday = {};
+      querySnapshot.forEach((doc) => {
+        const date = doc.id;
+        const journal = doc.data();
+        console.log("journal", journal);
+        journalsbyday[date] = journal;
+      });
+      setJournalByDay(journalsbyday);
+      console.log("journlas by day", journalByDay);
+    });
+    return unsubscribe;
+  };
+
+  //setting todos
+  const writetodostodatabase = async () => {
+    try {
+      const batch = writeBatch(db);
+      Object.keys(todosData).forEach((date) => {
+        const todosref = doc(db, "users", user.email, "todos", date);
+        console.log(date);
+        batch.set(todosref, { date: todosData[date] });
+      });
+
+      await batch.commit();
+      console.log("Documents written successfully");
+    } catch (e) {
+      console.error("Error adding documents: ", e);
+    }
+  };
 
   useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todosData));
+    writetodostodatabase();
   }, [todosData]);
+
+  // getting journals
+  useEffect(() => {
+    const journaldayref = collection(db, "users", user.email, "journals");
+    const unsubscribe = onSnapshot(journaldayref, (querySnapshot) => {
+      const journalsbyday = {};
+      querySnapshot.forEach((doc) => {
+        const date = doc.id;
+        const journal = doc.data();
+        journalsbyday[date] = journal;
+      });
+      console.log(journalsbyday);
+      setJournalByDay(journalsbyday);
+    });
+    return unsubscribe;
+  }, [user, db]);
 
   const handlePrevDay = () => {
     setCurrentDay((prevDay) => {
@@ -88,6 +167,8 @@ const Intentions = () => {
             currentDay={currentDay}
             setJournalByDay={setJournalByDay}
             journalByDay={journalByDay}
+            user={user}
+            db={db}
           />
         </div>
       ) : (

@@ -12,11 +12,11 @@ const CalendarComp = ({ year, month, moodByDay, setMoodByDay }) => {
   const today = new Date();
 
   const emotions = [
-    { emoji: "🤩", text: "ahhh", color: "violet" },
-    { emoji: "😊", text: "nicee", color: "blue" },
-    { emoji: "😐", text: "okey", color: "teal" },
-    { emoji: "😔", text: "bummy", color: "orange" },
-    { emoji: "😣", text: "rotten", color: "red" },
+    { emoji: "🤩", text: "ahhh", color: "violet-300" },
+    { emoji: "😊", text: "nicee", color: "blue-300" },
+    { emoji: "😐", text: "okey", color: "teal-300" },
+    { emoji: "😔", text: "bummy", color: "orange-300" },
+    { emoji: "😣", text: "rotten", color: "red-300" },
   ];
 
   const handleDayClick = (day) => {
@@ -37,7 +37,7 @@ const CalendarComp = ({ year, month, moodByDay, setMoodByDay }) => {
       const emotion = emotions.find((e) => e.emoji === emoji);
       return (
         <div
-          className={`w-6 h-6 rounded-full bg-${emotion.color}-300 flex items-center justify-center text-xl`}
+          className={`w-6 h-6 rounded-full bg-${emotion.color} flex items-center justify-center text-xl`}
           style={{ cursor: "pointer" }}
         >
           {moodByDay[`${year}-${month + 1}-${day}`]}
@@ -59,6 +59,7 @@ const CalendarComp = ({ year, month, moodByDay, setMoodByDay }) => {
           {""}
         </div>
       ))}
+
       {days.map((day) => (
         <div
           key={day}
@@ -133,6 +134,12 @@ const CalendarComp = ({ year, month, moodByDay, setMoodByDay }) => {
               />
             )}
           </div>
+          <span className="bg-red-300"></span>
+          <span className="bg-orange-300"> </span>
+          <span className="bg-green-300"> </span>
+          <span className="bg-teal-300"> </span>
+          <span className="bg-blue-300"> </span>
+          <span className="bg-violet-300"> </span>
         </div>
       )}
     </div>

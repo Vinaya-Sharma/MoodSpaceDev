@@ -42,6 +42,12 @@ const MoodPicker = ({
           <span className={`font-bold text-xs text-${emotion.color}`}>
             {emotion.text}
           </span>
+          <span className="text-red-500"></span>
+          <span className="text-orange-500"> </span>
+          <span className="text-green-500"> </span>
+          <span className="text-teal-500"> </span>
+          <span className="text-blue-500"> </span>
+          <span className="text-violet-900"> </span>
         </div>
       ))}
     </div>

@@ -10,7 +10,6 @@ const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos }) => {
   const selectRef = useRef(null);
   const selectRef2 = useRef(null);
 
-  console.log("in todos comp", todos[format(currentDay, "yyyy-MM-dd")]);
   const handleKeyPress = (event) => {
     if (event.key === "Enter" && event.target.value.trim() !== "") {
       const newTodo = {

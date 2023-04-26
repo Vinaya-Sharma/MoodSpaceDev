@@ -18,7 +18,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Popup() {
-    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "w-96 max-w-96 overflow-scroll flex" },
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "w-96 min-h-[400px] max-w-96 overflow-scroll flex" },
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_firebaseApp__WEBPACK_IMPORTED_MODULE_1__["default"], null)));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Popup);
@@ -41,28 +41,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Calendar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Calendar */ "./src/popup/components/Calendar.tsx");
 /* harmony import */ var _components_Intentions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Intentions */ "./src/popup/components/Intentions.tsx");
 /* harmony import */ var _components_Analytics__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Analytics */ "./src/popup/components/Analytics.tsx");
-/* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
-/* harmony import */ var react_icons_bs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-icons/bs */ "./node_modules/react-icons/bs/index.esm.js");
+/* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
+/* harmony import */ var _components_Header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Header */ "./src/popup/components/Header.tsx");
 
 
 
 
 
 
-const tabs = [
-    { name: "Calendar", icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_4__.FaCalendarAlt, null), component: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Calendar__WEBPACK_IMPORTED_MODULE_1__["default"], null) },
-    { name: "To Do List", icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_4__.FaCheck, null), component: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Intentions__WEBPACK_IMPORTED_MODULE_2__["default"], null) },
-    { name: "Analytics", icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_4__.FaChartBar, null), component: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Analytics__WEBPACK_IMPORTED_MODULE_3__["default"], null) },
-];
-function Navigation() {
+function Navigation({ user, auth, db }) {
+    const tabs = [
+        {
+            name: "Calendar",
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__.FaCalendarAlt, null),
+            component: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Calendar__WEBPACK_IMPORTED_MODULE_1__["default"], { db: db, user: user }),
+        },
+        {
+            name: "To Do List",
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__.FaCheck, null),
+            component: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Intentions__WEBPACK_IMPORTED_MODULE_2__["default"], { db: db, user: user }),
+        },
+        { name: "Analytics", icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__.FaChartBar, null), component: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Analytics__WEBPACK_IMPORTED_MODULE_3__["default"], null) },
+    ];
     const [activeTab, setActiveTab] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(tabs[0]);
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full flex-col " },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "w-full p-4 flex items-center justify-between" },
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "text-sm font-medium font-serif " }, "MoodSpace"),
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_bs__WEBPACK_IMPORTED_MODULE_5__.BsFillGearFill, { className: "text-sm" })),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Header__WEBPACK_IMPORTED_MODULE_4__["default"], { user: user, auth: auth }),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("hr", null),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex p-10 min-h-[420px] justify-center" }, activeTab.component),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "w-full flex  max-h-64 overflow-y-auto  justify-center items-center bg-teel text-white p-2 fixed bottom-0" }, tabs.map((tab) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { key: tab.name, className: `flex flex-col items-center mr-4 ${activeTab === tab ? "text-white" : "text-gray-300"}`, onClick: () => handleTabClick(tab) },
@@ -283,22 +289,55 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _features_Calendar_Comp__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../features/Calendar.Comp */ "./src/popup/features/Calendar.Comp.tsx");
+/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! firebase/firestore */ "./node_modules/firebase/firestore/dist/esm/index.esm.js");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 
 
-const Calendar = () => {
+
+const Calendar = ({ db, user }) => {
     const [year, setYear] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new Date().getFullYear());
     const [month, setMonth] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new Date().getMonth());
     const [moodByDay, setMoodByDay] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
     // Load mood data from local storage on mount
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        const savedMoodByDay = JSON.parse(localStorage.getItem("moodByDay"));
-        if (savedMoodByDay) {
-            setMoodByDay(savedMoodByDay);
+        const moodByDayRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.collection)(db, "users", user.email, "moodByDay");
+        const unsubscribe = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.onSnapshot)(moodByDayRef, (querySnapshot) => {
+            const moodByDay = {};
+            querySnapshot.forEach((doc) => {
+                const date = doc.id;
+                const mood = doc.data();
+                moodByDay[date] = mood.emoji;
+            });
+            console.log(moodByDay);
+            setMoodByDay(moodByDay);
+        });
+        return unsubscribe;
+    }, [user, db]);
+    const writetodatabase = () => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const batch = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.writeBatch)(db);
+            Object.keys(moodByDay).forEach((date) => {
+                const moodRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.doc)(db, "users", user.email, "moodByDay", date);
+                batch.set(moodRef, { emoji: moodByDay[date] });
+            });
+            yield batch.commit();
+            console.log("Documents written successfully");
         }
-    }, []);
+        catch (e) {
+            console.error("Error adding documents: ", e);
+        }
+    });
     // Save mood data to local storage on each update
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        localStorage.setItem("moodByDay", JSON.stringify(moodByDay));
+        writetodatabase();
     }, [moodByDay]);
     const handlePrevMonth = () => {
         if (month === 0) {
@@ -334,6 +373,68 @@ const Calendar = () => {
 
 /***/ }),
 
+/***/ "./src/popup/components/Header.tsx":
+/*!*****************************************!*\
+  !*** ./src/popup/components/Header.tsx ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_icons_bs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-icons/bs */ "./node_modules/react-icons/bs/index.esm.js");
+
+
+function Header({ user, auth }) {
+    const [showSettings, setShowSettings] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    const handleLogout = () => {
+        chrome.identity.getAuthToken({ interactive: true }, (token) => {
+            if (chrome.runtime.lastError) {
+                console.error(chrome.runtime.lastError);
+            }
+            else if (token) {
+                chrome.identity.removeCachedAuthToken({ token: token }, () => {
+                    auth
+                        .signOut()
+                        .then(() => {
+                        console.log("User signed out successfully");
+                    })
+                        .catch((error) => {
+                        console.error("Error signing out: ", error);
+                    });
+                });
+            }
+            else {
+                auth
+                    .signOut()
+                    .then(() => {
+                    console.log("User signed out successfully");
+                })
+                    .catch((error) => {
+                    console.error("Error signing out: ", error);
+                });
+            }
+        });
+    };
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "w-full p-4 flex items-center justify-between" },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "text-sm font-medium font-serif " }, "MoodSpace"),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative mr-4" },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_bs__WEBPACK_IMPORTED_MODULE_1__.BsFillGearFill, { className: "text-sm cursor-pointer", onClick: () => setShowSettings(!showSettings) }),
+            showSettings && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "absolute right-2 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl z-10" },
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "px-4 py-2 font-medium text-gray-800" },
+                    "Signed in as: ",
+                    user.email),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "py-2 border-t border-gray-300" },
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { className: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900", onClick: handleLogout }, "Logout")))))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Header);
+
+
+/***/ }),
+
 /***/ "./src/popup/components/Intentions.tsx":
 /*!*********************************************!*\
   !*** ./src/popup/components/Intentions.tsx ***!
@@ -348,22 +449,96 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _features_Journal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../features/Journal */ "./src/popup/features/Journal.tsx");
 /* harmony import */ var _features_TodoComp__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../features/TodoComp */ "./src/popup/features/TodoComp.tsx");
-/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/format/index.js");
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/format/index.js");
+/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! firebase/firestore */ "./node_modules/firebase/firestore/dist/esm/index.esm.js");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 
 
 
 
-const Intentions = () => {
+
+const Intentions = ({ db, user }) => {
     const [currentDay, setCurrentDay] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new Date());
-    const [journalByDay, setJournalByDay] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(JSON.parse(localStorage.getItem("journals")) || {});
-    const [todosData, setTodosData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(JSON.parse(localStorage.getItem("todos")) || {});
+    // getting journals + todos
+    const [journalByDay, setJournalByDay] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
+    const [todosData, setTodosData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
     const [showJournal, setShowJournal] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    const gettododata = () => __awaiter(void 0, void 0, void 0, function* () {
+        const todosref = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.collection)(db, "users", user.email, "todos");
+        const unsubscribe = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.onSnapshot)(todosref, (querySnapshot) => {
+            const todosbyday = {};
+            querySnapshot.forEach((doc) => {
+                const date = doc.id;
+                const mood = doc.data().date;
+                todosbyday[date] = mood;
+            });
+            console.log(todosbyday);
+            setTodosData(todosbyday);
+        });
+        return unsubscribe;
+    });
+    // getting journal
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        localStorage.setItem("journals", JSON.stringify(journalByDay));
-    }, [journalByDay]);
+        getjournaldata();
+        gettododata();
+    }, []);
+    const getjournaldata = () => __awaiter(void 0, void 0, void 0, function* () {
+        const journalsbydayjournalref = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.collection)(db, "users", user.email, "journals");
+        const unsubscribe = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.onSnapshot)(journalsbydayjournalref, (querySnapshot) => {
+            const journalsbyday = {};
+            querySnapshot.forEach((doc) => {
+                const date = doc.id;
+                const journal = doc.data();
+                console.log("journal", journal);
+                journalsbyday[date] = journal;
+            });
+            setJournalByDay(journalsbyday);
+            console.log("journlas by day", journalByDay);
+        });
+        return unsubscribe;
+    });
+    //setting todos
+    const writetodostodatabase = () => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const batch = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.writeBatch)(db);
+            Object.keys(todosData).forEach((date) => {
+                const todosref = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.doc)(db, "users", user.email, "todos", date);
+                console.log(date);
+                batch.set(todosref, { date: todosData[date] });
+            });
+            yield batch.commit();
+            console.log("Documents written successfully");
+        }
+        catch (e) {
+            console.error("Error adding documents: ", e);
+        }
+    });
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        localStorage.setItem("todos", JSON.stringify(todosData));
+        writetodostodatabase();
     }, [todosData]);
+    // getting journals
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        const journaldayref = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.collection)(db, "users", user.email, "journals");
+        const unsubscribe = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.onSnapshot)(journaldayref, (querySnapshot) => {
+            const journalsbyday = {};
+            querySnapshot.forEach((doc) => {
+                const date = doc.id;
+                const journal = doc.data();
+                journalsbyday[date] = journal;
+            });
+            console.log(journalsbyday);
+            setJournalByDay(journalsbyday);
+        });
+        return unsubscribe;
+    }, [user, db]);
     const handlePrevDay = () => {
         setCurrentDay((prevDay) => {
             const newDay = new Date(prevDay);
@@ -385,17 +560,103 @@ const Intentions = () => {
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { className: "bg-teel rounded-full px-3 py-1 mr-2 text-white hover:bg-opacity-80 transition-colors", onClick: handlePrevDay }, "<"),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { className: "bg-teel rounded-full px-3 py-1 text-white hover:bg-opacity-80 transition-colors", onClick: handleNextDay }, ">"))),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " flex mt-1 justify-between" },
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", { className: "text-md font-bold text-gray-800 mb-2" }, (0,date_fns__WEBPACK_IMPORTED_MODULE_3__["default"])(currentDay, "EEEE, MMMM d, yyyy")),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", { className: "text-md font-bold text-gray-800 mb-2" }, (0,date_fns__WEBPACK_IMPORTED_MODULE_4__["default"])(currentDay, "EEEE, MMMM d, yyyy")),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "border border-cpink h-8 rounded-lg flex max-w-[150px]" },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { className: `${!showJournal ? "bg-cpink text-white" : "bg-white text-cpink"} rounded-l-md flex w-full items-center px-2 justify-center transition-colors duration-300`, onClick: () => setShowJournal(false) },
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "Todos")),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { className: `${showJournal ? "bg-cpink text-white" : "bg-white text-cpink"} rounded-r-md flex items-center w-full  px-2 justify-center transition-colors duration-300`, onClick: () => setShowJournal(true) },
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "Journal")))),
         showJournal ? (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "my-4 w-80 " },
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_features_Journal__WEBPACK_IMPORTED_MODULE_1__["default"], { currentDay: currentDay, setJournalByDay: setJournalByDay, journalByDay: journalByDay }))) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "my-4 w-80 " },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_features_Journal__WEBPACK_IMPORTED_MODULE_1__["default"], { currentDay: currentDay, setJournalByDay: setJournalByDay, journalByDay: journalByDay, user: user, db: db }))) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "my-4 w-80 " },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_features_TodoComp__WEBPACK_IMPORTED_MODULE_2__["default"], { currentDay: currentDay, setTodosData: setTodosData, todosData: todosData })))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Intentions);
+
+
+/***/ }),
+
+/***/ "./src/popup/components/Signup.tsx":
+/*!*****************************************!*\
+  !*** ./src/popup/components/Signup.tsx ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! firebase/firestore */ "./node_modules/firebase/firestore/dist/esm/index.esm.js");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+const Signup = ({ user, db }) => {
+    const [name, setName] = react__WEBPACK_IMPORTED_MODULE_0___default().useState("");
+    const [age, setAge] = react__WEBPACK_IMPORTED_MODULE_0___default().useState("");
+    const [reason, setReason] = react__WEBPACK_IMPORTED_MODULE_0___default().useState("productivity");
+    const [otherReason, setOtherReason] = react__WEBPACK_IMPORTED_MODULE_0___default().useState("");
+    const [submitting, setSubmitting] = react__WEBPACK_IMPORTED_MODULE_0___default().useState(false);
+    const handleSubmit = (e) => __awaiter(void 0, void 0, void 0, function* () {
+        e.preventDefault();
+        setSubmitting(true);
+        let thereason = reason == "other" ? otherReason : reason;
+        console.log(reason);
+        try {
+            const userData = {
+                name,
+                age,
+                reason: thereason,
+            };
+            yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.setDoc)((0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "users", user.email), userData);
+            console.log("User data saved to Firestore:", userData);
+        }
+        catch (error) {
+            console.error("Error writing user data to Firestore:", error);
+        }
+        finally {
+            setSubmitting(false);
+        }
+    });
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col justify-center items-center" },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " flex mt-8 gap-2" },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", { src: "logo128x128.png", alt: "MoodSpace logo", className: "w-10 mb-2" }),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "text-xl font-serif font-bold" }, "Welcome to MoodSpace")),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", { className: "flex flex-wrap gap-4 pb-4 px-4", onSubmit: handleSubmit },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "w-64 mb-4" },
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { className: "block w-full text-gray-700 font-bold mb-2", htmlFor: "email" }, "Email"),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { className: " w-64 border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", id: "email", type: "email", value: user.email, disabled: true })),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "mb-4" },
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { className: "block text-gray-700 font-bold mb-2", htmlFor: "name" }, "First Name"),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { className: "border rounded-md  w-52 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", id: "name", type: "text", value: name, onChange: (e) => setName(e.target.value) })),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "mb-4" },
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { className: "block text-gray-700 font-bold mb-2", htmlFor: "age" }, "Age"),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { className: "border rounded-md py-2 px-3 max-w-[100px] text-gray-700 leading-tight focus:outline-none focus:shadow-outline", id: "age", type: "number", value: age, onChange: (e) => setAge(e.target.value) })),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full  mb-4" },
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { className: "block text-gray-700 font-bold mb-2", htmlFor: "reason" }, "Reason for using MoodSpace"),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", { className: "border min-w-[150px] rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", id: "reason", value: reason, onChange: (e) => {
+                            setReason(e.target.value);
+                            console.log(reason);
+                        } },
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "productivity" }, "Productivity"),
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "wellness" }, "Wellness"),
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "both" }, "Both!"),
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "other" }, "Other"))),
+                reason === "other" && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "mt-6 " },
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { className: "border justify-start rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", id: "otherReason", type: "text", placeholder: "please share why", value: otherReason, onChange: (e) => setOtherReason(e.target.value) })))),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full justify-center" },
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { type: "submit", className: "bg-teal-500 w-full hover:bg-teal-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" }, "Submit")))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Signup);
 
 
 /***/ }),
@@ -426,11 +687,11 @@ const CalendarComp = ({ year, month, moodByDay, setMoodByDay }) => {
     const [mood, setMood] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
     const today = new Date();
     const emotions = [
-        { emoji: "🤩", text: "ahhh", color: "violet" },
-        { emoji: "😊", text: "nicee", color: "blue" },
-        { emoji: "😐", text: "okey", color: "teal" },
-        { emoji: "😔", text: "bummy", color: "orange" },
-        { emoji: "😣", text: "rotten", color: "red" },
+        { emoji: "🤩", text: "ahhh", color: "violet-300" },
+        { emoji: "😊", text: "nicee", color: "blue-300" },
+        { emoji: "😐", text: "okey", color: "teal-300" },
+        { emoji: "😔", text: "bummy", color: "orange-300" },
+        { emoji: "😣", text: "rotten", color: "red-300" },
     ];
     const handleDayClick = (day) => {
         setSelectedDay(day);
@@ -444,7 +705,7 @@ const CalendarComp = ({ year, month, moodByDay, setMoodByDay }) => {
         if (moodByDay.hasOwnProperty(`${year}-${month + 1}-${day}`)) {
             const emoji = moodByDay[`${year}-${month + 1}-${day}`];
             const emotion = emotions.find((e) => e.emoji === emoji);
-            return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: `w-6 h-6 rounded-full bg-${emotion.color}-300 flex items-center justify-center text-xl`, style: { cursor: "pointer" } }, moodByDay[`${year}-${month + 1}-${day}`]));
+            return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: `w-6 h-6 rounded-full bg-${emotion.color} flex items-center justify-center text-xl`, style: { cursor: "pointer" } }, moodByDay[`${year}-${month + 1}-${day}`]));
         }
         return null;
     };
@@ -466,7 +727,13 @@ const CalendarComp = ({ year, month, moodByDay, setMoodByDay }) => {
                     ? "from the past!"
                     : "that hasn't happened yet!"}
                       `),
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "mt-2" }, "Come back tomorrow and don't miss a day, I want to hear all about how you're feeling! \uD83D\uDE80\uD83D\uDD70\uFE0F\uD83D\uDC4B")))) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_FeelingsReasons__WEBPACK_IMPORTED_MODULE_2__["default"], { selectedDay: selectedDay, setMood: setMood, year: year, month: month, setSelectedDay: setSelectedDay })))))));
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "mt-2" }, "Come back tomorrow and don't miss a day, I want to hear all about how you're feeling! \uD83D\uDE80\uD83D\uDD70\uFE0F\uD83D\uDC4B")))) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_FeelingsReasons__WEBPACK_IMPORTED_MODULE_2__["default"], { selectedDay: selectedDay, setMood: setMood, year: year, month: month, setSelectedDay: setSelectedDay }))),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "bg-red-300" }),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "bg-orange-300" }, " "),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "bg-green-300" }, " "),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "bg-teal-300" }, " "),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "bg-blue-300" }, " "),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "bg-violet-300" }, " ")))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CalendarComp);
 
@@ -564,24 +831,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/format/index.js");
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/format/index.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! firebase/firestore */ "./node_modules/firebase/firestore/dist/esm/index.esm.js");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 
 
 
-const Journal = ({ currentDay, setJournalByDay, journalByDay }) => {
-    const [journalInput, setJournalInput] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(journalByDay[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")]
-        ? journalByDay[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")].content
+
+const Journal = ({ currentDay, setJournalByDay, journalByDay, user, db }) => {
+    console.log("data here is", journalByDay);
+    const [journalInput, setJournalInput] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(journalByDay[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")]
+        ? journalByDay[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")].content
         : "");
-    const [editmode, seteditmode] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(journalByDay[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")] ? true : false);
+    const [editmode, seteditmode] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(journalByDay[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")] ? true : false);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        setJournalInput(journalByDay[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")]
-            ? journalByDay[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")].content
+        setJournalInput(journalByDay[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")]
+            ? journalByDay[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")].content
             : "");
     }, [currentDay]);
     const handleAddEntry = () => {
-        setJournalByDay((prevJournals) => (Object.assign(Object.assign({}, prevJournals), { [(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")]: {
-                id: (0,uuid__WEBPACK_IMPORTED_MODULE_2__["default"])(),
+        setJournalByDay((prevJournals) => (Object.assign(Object.assign({}, prevJournals), { [(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")]: {
+                id: (0,uuid__WEBPACK_IMPORTED_MODULE_3__["default"])(),
                 title: "",
                 content: "",
             } })));
@@ -589,14 +868,39 @@ const Journal = ({ currentDay, setJournalByDay, journalByDay }) => {
     const handleJournalInputChange = (e) => {
         setJournalInput(e.target.value);
     };
-    const handleSaveEntry = () => {
-        setJournalByDay((prevJournals) => (Object.assign(Object.assign({}, prevJournals), { [(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")]: {
-                title: (0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "EEEE, MMMM d, yyyy"),
+    const handleSaveEntry = () => __awaiter(void 0, void 0, void 0, function* () {
+        const newJournal = Object.assign(Object.assign({}, journalByDay), { [(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")]: {
+                title: (0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "EEEE, MMMM d, yyyy"),
                 content: journalInput,
-            } })));
-    };
+            } });
+        setJournalByDay(newJournal);
+        console.log(journalByDay);
+        const batch = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.writeBatch)(db);
+        Object.keys(newJournal).forEach((date) => {
+            const journalRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "users", user.email, "journals", date);
+            batch.set(journalRef, Object.assign({}, newJournal[date]));
+        });
+        yield batch.commit();
+        console.log("Journals written successfully");
+    });
+    // setting journals
+    const writejournalstodatabase = () => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("running..");
+        try {
+            const batch = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.writeBatch)(db);
+            Object.keys(journalByDay).forEach((date) => {
+                const journalref = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "users", user.email, "journals", date);
+                batch.set(journalref, { journal: journalByDay[date] });
+            });
+            yield batch.commit();
+            console.log("Documents written successfully");
+        }
+        catch (e) {
+            console.error("Error adding documents: ", e);
+        }
+    });
     const getJournalByDate = (date) => {
-        const formattedDate = (0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(date, "yyyy-MM-dd");
+        const formattedDate = (0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(date, "yyyy-MM-dd");
         if (journalByDay[formattedDate]) {
             return journalByDay[formattedDate];
         }
@@ -604,8 +908,8 @@ const Journal = ({ currentDay, setJournalByDay, journalByDay }) => {
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("textarea", { className: "shadow appearance-none border border-gray-200 min-h-[175px] text-left rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full", id: "journal-input", placeholder: "Write your journal here...\nThis can be a daily reflection, summary of your day, or any thoughts you just want to note down :)", onChange: (e) => handleJournalInputChange(e), value: journalInput }),
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { className: `${journalByDay[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")]
-                    ? journalByDay[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")].content ==
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { className: `${journalByDay[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")]
+                    ? journalByDay[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")].content ==
                         journalInput
                         ? "bg-cpink"
                         : "bg-red-400"
@@ -654,7 +958,13 @@ const MoodPicker = ({ year, month, moodByDay, setMoodByDay, selectedDay, setMood
                 setMood(false);
             } },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "text-xl" }, emotion.emoji)),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: `font-bold text-xs text-${emotion.color}` }, emotion.text))))));
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: `font-bold text-xs text-${emotion.color}` }, emotion.text),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "text-red-500" }),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "text-orange-500" }, " "),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "text-green-500" }, " "),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "text-teal-500" }, " "),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "text-blue-500" }, " "),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "text-violet-900" }, " "))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MoodPicker);
 
@@ -685,7 +995,6 @@ const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos }) => {
     const [acctimeFormat, setaccTimeFormat] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("mins");
     const selectRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
     const selectRef2 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
-    console.log("in todos comp", todos[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")]);
     const handleKeyPress = (event) => {
         if (event.key === "Enter" && event.target.value.trim() !== "") {
             const newTodo = {
@@ -835,7 +1144,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var firebase_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! firebase/auth */ "./node_modules/firebase/auth/dist/esm/index.esm.js");
 /* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./const */ "./src/popup/const.js");
 /* harmony import */ var _Router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Router */ "./src/popup/Router.tsx");
-// index.js
+/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! firebase/firestore */ "./node_modules/firebase/firestore/dist/esm/index.esm.js");
+/* harmony import */ var _components_Signup__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Signup */ "./src/popup/components/Signup.tsx");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
 
 
 
@@ -843,8 +1164,14 @@ __webpack_require__.r(__webpack_exports__);
 
 const firebase = (0,firebase_app__WEBPACK_IMPORTED_MODULE_1__.initializeApp)(_const__WEBPACK_IMPORTED_MODULE_3__.FIREBASE_CONFIG);
 const auth = (0,firebase_auth__WEBPACK_IMPORTED_MODULE_2__.getAuth)(firebase);
+const db = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_5__.getFirestore)(firebase);
 const FirebaseApp = (props) => {
     const [user, setUser] = react__WEBPACK_IMPORTED_MODULE_0___default().useState(undefined);
+    const [isLogin, setIsLogin] = react__WEBPACK_IMPORTED_MODULE_0___default().useState(true);
+    const [name, setName] = react__WEBPACK_IMPORTED_MODULE_0___default().useState("");
+    const [age, setAge] = react__WEBPACK_IMPORTED_MODULE_0___default().useState("");
+    const [reason, setReason] = react__WEBPACK_IMPORTED_MODULE_0___default().useState("");
+    const [firstTime, setFirstTime] = react__WEBPACK_IMPORTED_MODULE_0___default().useState(null);
     const signIn = (e) => {
         e.preventDefault();
         chrome.identity.getAuthToken({ interactive: true }, (token) => {
@@ -866,18 +1193,32 @@ const FirebaseApp = (props) => {
             setUser(user && user.uid ? user : null);
         });
     }, []);
+    const checkIfFirstTime = () => __awaiter(void 0, void 0, void 0, function* () {
+        const userRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_5__.doc)(db, "users", user.email);
+        const docSnap = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_5__.getDoc)(userRef);
+        if (docSnap.exists()) {
+            console.log("User already exists:", docSnap.data());
+            setFirstTime(false);
+        }
+        else {
+            console.log("User does not already exist:");
+            setFirstTime(true);
+        }
+    });
     if (undefined === user)
         return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "Loading...");
     //return this when there is a user
-    if (user != null)
-        return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null,
-                "Signed in as ",
-                user.email),
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { onClick: auth.signOut.bind(auth) }, "Sign Out?"),
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Router__WEBPACK_IMPORTED_MODULE_4__["default"], null)));
+    if (user != null) {
+        checkIfFirstTime();
+        return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "w-full h-full" }, firstTime === null ? (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex items-center justify-center h-full min-h-[400px] w-full" },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900" }))) : firstTime ? (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Signup__WEBPACK_IMPORTED_MODULE_6__["default"], { user: user, db: db })) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Router__WEBPACK_IMPORTED_MODULE_4__["default"], { user: user, auth: auth, db: db }))));
+    }
     //return this when there is no user
-    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { onClick: signIn }, "Sign In with Google");
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex place-self-center flex-col w-full 2-full place-items-center items-center justify-center h-[400px]" },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex items-center gap-2" },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", { src: "logo128x128.png", alt: "MoodSpace logo", className: "w-10 mb-8" }),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "text-xl font-serif font-bold mb-6" }, "Welcome to MoodSpace")),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { className: "bg-teel w-32 h-10 text-center text-white font-bold rounded hover:bg-teal-600", onClick: signIn }, "Sign In with Google")));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FirebaseApp);
 
@@ -1126,7 +1467,7 @@ const FIREBASE_CONFIG = {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_css-loader_dist_runtime_api_js-node_modules_css-loader_dist_runtime_sour-b53f7e","vendors-node_modules_date-fns_esm_format_index_js-node_modules_react-icons_bs_index_esm_js-no-4d0848","src_assets_css_tailwind_css"], () => (__webpack_require__("./src/popup/index.tsx")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_css-loader_dist_runtime_api_js-node_modules_css-loader_dist_runtime_sour-b53f7e","vendors-node_modules_date-fns_esm_format_index_js-node_modules_react-icons_bs_index_esm_js-no-d2ac6a","src_assets_css_tailwind_css"], () => (__webpack_require__("./src/popup/index.tsx")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

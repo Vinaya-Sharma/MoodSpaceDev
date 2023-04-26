@@ -1,17 +1,25 @@
 import React, { useState } from "react";
 import Calendar from "./components/Calendar";
-import ToDo from "./components/Intentions";
+import Intentions from "./components/Intentions";
 import Analytics from "./components/Analytics";
 import { FaCalendarAlt, FaCheck, FaChartBar } from "react-icons/fa";
-import { BsFillGearFill } from "react-icons/bs";
+import Header from "./components/Header";
 
-const tabs = [
-  { name: "Calendar", icon: <FaCalendarAlt />, component: <Calendar /> },
-  { name: "To Do List", icon: <FaCheck />, component: <ToDo /> },
-  { name: "Analytics", icon: <FaChartBar />, component: <Analytics /> },
-];
+function Navigation({ user, auth, db }) {
+  const tabs = [
+    {
+      name: "Calendar",
+      icon: <FaCalendarAlt />,
+      component: <Calendar db={db} user={user} />,
+    },
+    {
+      name: "To Do List",
+      icon: <FaCheck />,
+      component: <Intentions db={db} user={user} />,
+    },
+    { name: "Analytics", icon: <FaChartBar />, component: <Analytics /> },
+  ];
 
-function Navigation() {
   const [activeTab, setActiveTab] = useState(tabs[0]);
 
   const handleTabClick = (tab) => {
@@ -20,10 +28,7 @@ function Navigation() {
 
   return (
     <div className="flex w-full flex-col ">
-      <div className="w-full p-4 flex items-center justify-between">
-        <h1 className="text-sm font-medium font-serif ">MoodSpace</h1>
-        <BsFillGearFill className="text-sm" />
-      </div>
+      <Header user={user} auth={auth} />
       <hr />
       <div className="flex p-10 min-h-[420px] justify-center">
         {activeTab.component}

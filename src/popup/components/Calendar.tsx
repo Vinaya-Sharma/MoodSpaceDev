@@ -1,22 +1,54 @@
 import React, { useState, useEffect } from "react";
 import CalendarComp from "../features/Calendar.Comp";
+import {
+  collection,
+  addDoc,
+  doc,
+  setDoc,
+  query,
+  onSnapshot,
+  getDoc,
+  writeBatch,
+} from "firebase/firestore";
 
-const Calendar = () => {
+const Calendar = ({ db, user }) => {
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
   const [moodByDay, setMoodByDay] = useState({});
 
   // Load mood data from local storage on mount
   useEffect(() => {
-    const savedMoodByDay = JSON.parse(localStorage.getItem("moodByDay"));
-    if (savedMoodByDay) {
-      setMoodByDay(savedMoodByDay);
+    const moodByDayRef = collection(db, "users", user.email, "moodByDay");
+    const unsubscribe = onSnapshot(moodByDayRef, (querySnapshot) => {
+      const moodByDay = {};
+      querySnapshot.forEach((doc) => {
+        const date = doc.id;
+        const mood = doc.data();
+        moodByDay[date] = mood.emoji;
+      });
+      console.log(moodByDay);
+      setMoodByDay(moodByDay);
+    });
+    return unsubscribe;
+  }, [user, db]);
+
+  const writetodatabase = async () => {
+    try {
+      const batch = writeBatch(db);
+      Object.keys(moodByDay).forEach((date) => {
+        const moodRef = doc(db, "users", user.email, "moodByDay", date);
+        batch.set(moodRef, { emoji: moodByDay[date] });
+      });
+      await batch.commit();
+      console.log("Documents written successfully");
+    } catch (e) {
+      console.error("Error adding documents: ", e);
     }
-  }, []);
+  };
 
   // Save mood data to local storage on each update
   useEffect(() => {
-    localStorage.setItem("moodByDay", JSON.stringify(moodByDay));
+    writetodatabase();
   }, [moodByDay]);
 
   const handlePrevMonth = () => {
