@@ -18,7 +18,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Popup() {
-    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "w-96 min-h-[400px] max-w-96 overflow-scroll flex" },
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "w-96 max-w-96 overflow-scroll flex" },
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_firebaseApp__WEBPACK_IMPORTED_MODULE_1__["default"], null)));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Popup);
@@ -41,8 +41,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Calendar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Calendar */ "./src/popup/components/Calendar.tsx");
 /* harmony import */ var _components_Intentions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Intentions */ "./src/popup/components/Intentions.tsx");
 /* harmony import */ var _components_Analytics__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Analytics */ "./src/popup/components/Analytics.tsx");
-/* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
-/* harmony import */ var _components_Header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Header */ "./src/popup/components/Header.tsx");
+/* harmony import */ var _components_Accountability__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Accountability */ "./src/popup/components/Accountability.tsx");
+/* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
+/* harmony import */ var _components_Header__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Header */ "./src/popup/components/Header.tsx");
+/* harmony import */ var react_icons_bs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-icons/bs */ "./node_modules/react-icons/bs/index.esm.js");
+
+
 
 
 
@@ -53,25 +57,34 @@ function Navigation({ user, auth, db }) {
     const tabs = [
         {
             name: "Calendar",
-            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__.FaCalendarAlt, null),
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_6__.FaCalendarAlt, null),
             component: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Calendar__WEBPACK_IMPORTED_MODULE_1__["default"], { db: db, user: user }),
         },
         {
             name: "To Do List",
-            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__.FaCheck, null),
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_6__.FaCheck, null),
             component: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Intentions__WEBPACK_IMPORTED_MODULE_2__["default"], { db: db, user: user }),
         },
-        { name: "Analytics", icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__.FaChartBar, null), component: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Analytics__WEBPACK_IMPORTED_MODULE_3__["default"], null) },
+        {
+            name: "Analytics",
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_6__.FaChartBar, null),
+            component: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Analytics__WEBPACK_IMPORTED_MODULE_3__["default"], { db: db, user: user }),
+        },
+        {
+            name: "Accountability",
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_bs__WEBPACK_IMPORTED_MODULE_7__.BsPerson, null),
+            component: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Accountability__WEBPACK_IMPORTED_MODULE_4__["default"], { db: db, user: user }),
+        },
     ];
     const [activeTab, setActiveTab] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(tabs[0]);
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full flex-col " },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Header__WEBPACK_IMPORTED_MODULE_4__["default"], { user: user, auth: auth }),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Header__WEBPACK_IMPORTED_MODULE_5__["default"], { user: user, auth: auth }),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("hr", null),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex p-10 min-h-[420px] justify-center" }, activeTab.component),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "w-full flex  max-h-64 overflow-y-auto  justify-center items-center bg-teel text-white p-2 fixed bottom-0" }, tabs.map((tab) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { key: tab.name, className: `flex flex-col items-center mr-4 ${activeTab === tab ? "text-white" : "text-gray-300"}`, onClick: () => handleTabClick(tab) },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex p-10 min-h-[450px]" }, activeTab.component),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "w-full flex overflow-y-auto  justify-center items-center bg-teel text-white p-2 fixed bottom-0" }, tabs.map((tab) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { key: tab.name, className: `flex flex-col items-center mr-4 ${activeTab === tab ? "text-white" : "text-gray-300"}`, onClick: () => handleTabClick(tab) },
             tab.icon,
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, tab.name)))))));
 }
@@ -234,6 +247,156 @@ const MoodChart = ({ data }) => {
 
 /***/ }),
 
+/***/ "./src/popup/components/Accountability.tsx":
+/*!*************************************************!*\
+  !*** ./src/popup/components/Accountability.tsx ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! firebase/firestore */ "./node_modules/firebase/firestore/dist/esm/index.esm.js");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+const Accountability = ({ db, user }) => {
+    const [code, setCode] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+    const [groupName, setGroupName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+    const [members, setMembers] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+    const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+    const [groupExists, setGroupExists] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
+    const fetchGroup = () => __awaiter(void 0, void 0, void 0, function* () {
+        const userDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "users", user.email);
+        const userDoc = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getDoc)(userDocRef);
+        let membersnames = [];
+        if (userDoc.exists()) {
+            const groupCode = userDoc.data().group;
+            if (groupCode) {
+                setCode(groupCode);
+                setGroupExists(true);
+                const groupDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "groups", groupCode);
+                const groupDoc = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getDoc)(groupDocRef);
+                if (groupDoc.exists()) {
+                    const members = groupDoc
+                        .data()
+                        .members.filter((member) => member !== user.email);
+                    for (const mem of members) {
+                        const userDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "users", mem);
+                        const userDoc = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getDoc)(userDocRef);
+                        if (userDoc.exists()) {
+                            const membername = userDoc.data().name;
+                            const memberphoto = userDoc.data().photo;
+                            membersnames.push({
+                                name: membername,
+                                email: mem,
+                                photo: memberphoto,
+                            });
+                        }
+                        else {
+                            console.log("error finding member");
+                        }
+                    }
+                    setMembers(membersnames);
+                    setLoading(false);
+                }
+            }
+        }
+    });
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        fetchGroup();
+    }, []);
+    const handleCodeChange = (e) => {
+        setCode(e.target.value);
+    };
+    const handleGroupNameChange = (e) => {
+        setGroupName(e.target.value);
+    };
+    const handleCreateGroup = () => __awaiter(void 0, void 0, void 0, function* () {
+        const groupsRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(db, "groups");
+        const code = generateCode();
+        yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.setDoc)((0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(groupsRef, code), {
+            groupName,
+            createdAt: (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.serverTimestamp)(),
+            members: [user.email],
+        });
+        // Update user profile
+        const userDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "users", user.email);
+        yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.updateDoc)(userDocRef, {
+            group: code,
+        });
+        setCode(code);
+        setGroupExists(true);
+    });
+    const handleJoinGroup = () => __awaiter(void 0, void 0, void 0, function* () {
+        const groupsRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(db, "groups");
+        const groupDoc = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getDoc)((0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(groupsRef, code));
+        if (groupDoc.exists()) {
+            yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.updateDoc)((0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(groupsRef, code), {
+                members: (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.arrayUnion)(user.email),
+            });
+            setGroupExists(true);
+            // Update user profile
+            const userDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "users", user.email);
+            yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.updateDoc)(userDocRef, {
+                group: code,
+            });
+        }
+        else {
+            setError("Invalid code, please try again.");
+        }
+    });
+    const generateCode = () => {
+        let code = "";
+        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        const codeLength = 6;
+        for (let i = 0; i < codeLength; i++) {
+            code += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return code;
+    };
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-80 h-[475px] pb-8 flex-col gap-4 " },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", { className: "text-2xl flex flex-col font-medium font-serif flex-start justify-start w-full text-left" },
+            "Accountability Group!",
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "text-sm font-bold" }, "See friends daily goals and help them stay on track")),
+        !groupExists ? (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col items-center justify-center min-h-screen bg-gray-100" },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "max-w-md p-6 mx-auto bg-white shadow-md rounded-lg" },
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "text-2xl font-bold mb-6 text-center" }, "Create or Join a Group"),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col space-y-4" },
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex items-center space-x-4" },
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "text", value: groupName, onChange: handleGroupNameChange, placeholder: "Group Name", className: "flex-grow px-4 py-2 text-gray-700 border border-gray-400 rounded-lg focus:outline-none focus:border-teal-500" }),
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { onClick: handleCreateGroup, className: "px-4 py-2 font-medium text-white bg-teal-500 rounded-lg hover:bg-teal-600" }, "Create Group")),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex items-center space-x-4" },
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "text", value: code, onChange: handleCodeChange, placeholder: "Enter Code", className: "flex-grow px-4 py-2 text-gray-700 border border-gray-400 rounded-lg focus:outline-none focus:border-teal-500" }),
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { onClick: handleJoinGroup, className: "px-4 py-2 font-medium text-white bg-teal-500 rounded-lg hover:bg-teal-600" }, "Join Group")))))) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex items-center gap-2" },
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { className: "text-md font-medium mb-2" }, "Group Code:"),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "text", value: code, readOnly: true, className: "bg-gray-100 px-3 py-2 rounded-md mb-2" })),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { className: "text-xs text-gray-500 mb-4" }, "^Share this code with others to join the group."),
+            loading ? (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { className: "text-lg font-medium mb-4" }, "Waiting for members to join...")) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { className: "text-md font-medium mb-2" }, "Members:"),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", { className: "list-disc list-inside" }, members.map((member) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { key: member.email },
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", { src: member.photo }),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { key: member.email, className: "text-sm text-gray-500 mb-1" }, member.name))))))),
+            error && react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { className: "text-red-500" }, error)))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Accountability);
+
+
+/***/ }),
+
 /***/ "./src/popup/components/Analytics.tsx":
 /*!********************************************!*\
   !*** ./src/popup/components/Analytics.tsx ***!
@@ -248,21 +411,55 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _analytics_MoodChart__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../analytics/MoodChart */ "./src/popup/analytics/MoodChart.tsx");
 /* harmony import */ var _analytics_ActivitiyCorrelations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../analytics/ActivitiyCorrelations */ "./src/popup/analytics/ActivitiyCorrelations.tsx");
+/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! firebase/firestore */ "./node_modules/firebase/firestore/dist/esm/index.esm.js");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 
 
 
-const Analytics = () => {
+
+const Analytics = ({ db, user }) => {
     const [moodByDayData, setMoodByDayData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
     const [reasonsByDayData, setReasonsByDayData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
-    //setting moods
+    const gettingData = () => __awaiter(void 0, void 0, void 0, function* () {
+        const docRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.doc)(db, "users", user.email);
+        const docSnap = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.getDoc)(docRef);
+        if (docSnap.exists()) {
+            const data = docSnap.data().moodReasons;
+            console.log("Document data:", data);
+            if (data) {
+                setReasonsByDayData(data);
+            }
+        }
+        else {
+            // docSnap.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    });
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        const moodByDayDataFromStorage = JSON.parse(localStorage.getItem("moodByDay") || "{}");
-        setMoodByDayData(moodByDayDataFromStorage);
-    }, []);
+        const moodByDayRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.collection)(db, "users", user.email, "moodByDay");
+        const unsubscribe = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.onSnapshot)(moodByDayRef, (querySnapshot) => {
+            const moodByDay = {};
+            querySnapshot.forEach((doc) => {
+                const date = doc.id;
+                const mood = doc.data();
+                moodByDay[date] = mood.emoji;
+            });
+            console.log(moodByDay);
+            setMoodByDayData(moodByDay);
+        });
+        return unsubscribe;
+    }, [user, db]);
     //setting activities
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        const activitiesByDaya = JSON.parse(localStorage.getItem("moodReasons") || "{}");
-        setReasonsByDayData(activitiesByDaya);
+        gettingData();
     }, []);
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-80 pb-8 flex-col items-center justify-center gap-4 " },
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", { className: "text-2xl flex flex-col font-medium font-serif flex-start justify-start w-full text-left" },
@@ -366,7 +563,7 @@ const Calendar = ({ db, user }) => {
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { className: "bg-teel rounded-full px-3 py-1 mr-2 text-white hover:bg-opacity-80 transition-colors", onClick: handlePrevMonth }, "<"),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { className: "bg-teel rounded-full px-3 py-1 text-white hover:bg-opacity-80 transition-colors", onClick: handleNextMonth }, ">"))),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_features_Calendar_Comp__WEBPACK_IMPORTED_MODULE_1__["default"], { year: year, month: month, moodByDay: moodByDay, setMoodByDay: setMoodByDay })));
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_features_Calendar_Comp__WEBPACK_IMPORTED_MODULE_1__["default"], { year: year, month: month, moodByDay: moodByDay, setMoodByDay: setMoodByDay, db: db, user: user })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Calendar);
 
@@ -471,8 +668,9 @@ const Intentions = ({ db, user }) => {
     const [journalByDay, setJournalByDay] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
     const [todosData, setTodosData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
     const [showJournal, setShowJournal] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    const [selectedMember, setSelectedMember] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(user.email);
     const gettododata = () => __awaiter(void 0, void 0, void 0, function* () {
-        const todosref = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.collection)(db, "users", user.email, "todos");
+        const todosref = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.collection)(db, "users", selectedMember, "todos");
         const unsubscribe = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.onSnapshot)(todosref, (querySnapshot) => {
             const todosbyday = {};
             querySnapshot.forEach((doc) => {
@@ -489,7 +687,8 @@ const Intentions = ({ db, user }) => {
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         getjournaldata();
         gettododata();
-    }, []);
+        console.log("change");
+    }, [selectedMember]);
     const getjournaldata = () => __awaiter(void 0, void 0, void 0, function* () {
         const journalsbydayjournalref = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.collection)(db, "users", user.email, "journals");
         const unsubscribe = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.onSnapshot)(journalsbydayjournalref, (querySnapshot) => {
@@ -522,7 +721,7 @@ const Intentions = ({ db, user }) => {
         }
     });
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        writetodostodatabase();
+        selectedMember == user.email && writetodostodatabase();
     }, [todosData]);
     // getting journals
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -553,7 +752,7 @@ const Intentions = ({ db, user }) => {
             return newDay;
         });
     };
-    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "justify-center font-serif w-80" },
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "justify-center font-serif w-80 min-h-[475px]" },
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex justify-between items-center" },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", { className: "text-2xl font-medium font-serif " }, showJournal ? "Brain Dump" : "Intentions"),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
@@ -568,7 +767,7 @@ const Intentions = ({ db, user }) => {
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "Journal")))),
         showJournal ? (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "my-4 w-80 " },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_features_Journal__WEBPACK_IMPORTED_MODULE_1__["default"], { currentDay: currentDay, setJournalByDay: setJournalByDay, journalByDay: journalByDay, user: user, db: db }))) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "my-4 w-80 " },
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_features_TodoComp__WEBPACK_IMPORTED_MODULE_2__["default"], { currentDay: currentDay, setTodosData: setTodosData, todosData: todosData })))));
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_features_TodoComp__WEBPACK_IMPORTED_MODULE_2__["default"], { currentDay: currentDay, setTodosData: setTodosData, todosData: todosData, user: user, db: db, selectedMember: selectedMember, setSelectedMember: setSelectedMember })))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Intentions);
 
@@ -599,7 +798,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 };
 
 
-const Signup = ({ user, db }) => {
+const Signup = ({ user, db, setFirstTime }) => {
     const [name, setName] = react__WEBPACK_IMPORTED_MODULE_0___default().useState("");
     const [age, setAge] = react__WEBPACK_IMPORTED_MODULE_0___default().useState("");
     const [reason, setReason] = react__WEBPACK_IMPORTED_MODULE_0___default().useState("productivity");
@@ -614,6 +813,7 @@ const Signup = ({ user, db }) => {
             const userData = {
                 name,
                 age,
+                photo: user.photoURL,
                 reason: thereason,
             };
             yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.setDoc)((0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "users", user.email), userData);
@@ -624,6 +824,7 @@ const Signup = ({ user, db }) => {
         }
         finally {
             setSubmitting(false);
+            setFirstTime(false);
         }
     });
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col justify-center items-center" },
@@ -678,7 +879,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const CalendarComp = ({ year, month, moodByDay, setMoodByDay }) => {
+const CalendarComp = ({ year, month, moodByDay, setMoodByDay, db, user }) => {
     const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const firstDayOfMonth = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -727,7 +928,7 @@ const CalendarComp = ({ year, month, moodByDay, setMoodByDay }) => {
                     ? "from the past!"
                     : "that hasn't happened yet!"}
                       `),
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "mt-2" }, "Come back tomorrow and don't miss a day, I want to hear all about how you're feeling! \uD83D\uDE80\uD83D\uDD70\uFE0F\uD83D\uDC4B")))) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_FeelingsReasons__WEBPACK_IMPORTED_MODULE_2__["default"], { selectedDay: selectedDay, setMood: setMood, year: year, month: month, setSelectedDay: setSelectedDay }))),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "mt-2" }, "Come back tomorrow and don't miss a day, I want to hear all about how you're feeling! \uD83D\uDE80\uD83D\uDD70\uFE0F\uD83D\uDC4B")))) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_FeelingsReasons__WEBPACK_IMPORTED_MODULE_2__["default"], { selectedDay: selectedDay, setMood: setMood, year: year, month: month, setSelectedDay: setSelectedDay, user: user, db: db }))),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "bg-red-300" }),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "bg-orange-300" }, " "),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "bg-green-300" }, " "),
@@ -750,25 +951,48 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
+/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! firebase/firestore */ "./node_modules/firebase/firestore/dist/esm/index.esm.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 
 
-const FeelingsReasons = ({ selectedDay, setMood, year, month, setSelectedDay, }) => {
-    const [reasonsData, setReasonsData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-    const [selectedReasons, setSelectedReasons] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-    // Load reasons from local storage on mount
-    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        const data = JSON.parse(localStorage.getItem("moodReasons"));
-        if (data) {
-            setReasonsData(data);
-            console.log(data[`${year}-${month + 1}-${selectedDay}`]);
-            console.log(year, month, selectedDay);
-            setSelectedReasons(data[`${year}-${month + 1}-${selectedDay}`]
-                ? data[`${year}-${month + 1}-${selectedDay}`]
-                : []);
+
+const FeelingsReasons = ({ selectedDay, setMood, year, month, setSelectedDay, user, db, }) => {
+    const [reasonsData, setReasonsData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+    const [selectedReasons, setSelectedReasons] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+    const gettingData = () => __awaiter(void 0, void 0, void 0, function* () {
+        const docRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_0__.doc)(db, "users", user.email);
+        const docSnap = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_0__.getDoc)(docRef);
+        if (docSnap.exists()) {
+            const data = docSnap.data().moodReasons;
+            console.log("Document data:", data);
+            if (data) {
+                setReasonsData(data);
+                console.log(data[`${year}-${month + 1}-${selectedDay}`]);
+                console.log(year, month, selectedDay);
+                setSelectedReasons(data[`${year}-${month + 1}-${selectedDay}`]
+                    ? data[`${year}-${month + 1}-${selectedDay}`]
+                    : []);
+            }
         }
+        else {
+            // docSnap.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    });
+    // Load reasons from local storage on mount
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        gettingData();
     }, []);
     //   useEffect(() => {
     //     setMood(true);
@@ -797,19 +1021,21 @@ const FeelingsReasons = ({ selectedDay, setMood, year, month, setSelectedDay, })
             setSelectedReasons([...selectedReasons, reason]);
         }
     };
-    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "bg-white rounded-lg p-4 font-serif" },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", { className: "text-[16px] mb-4 font-bold" }, "What made you feel this way"),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-wrap justify-center" }, reasons.map((reason) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { key: reason, className: `w-auto justify-center h-6 m-1 py-1 px-2 text-xs rounded-full ${selectedReasons.includes(reason)
+    return (react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", { className: "bg-white rounded-lg p-4 font-serif" },
+        react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h3", { className: "text-[16px] mb-4 font-bold" }, "What made you feel this way"),
+        react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", { className: "flex flex-wrap justify-center" }, reasons.map((reason) => (react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", { key: reason, className: `w-auto justify-center h-6 m-1 py-1 px-2 text-xs rounded-full ${selectedReasons.includes(reason)
                 ? "bg-teel text-white"
                 : "bg-gray-200 text-gray-800"}`, onClick: () => handleReasonClick(reason) }, reason)))),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex place-items-center justify-between mt-4" },
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__.FaArrowLeft, { className: "text-teel hover:text-teal-600 text-lg ", onClick: () => {
+        react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", { className: "flex place-items-center justify-between mt-4" },
+            react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_2__.FaArrowLeft, { className: "text-teel hover:text-teal-600 text-lg ", onClick: () => {
                     setMood(true);
                 } }),
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { className: "bg-teel hover:bg-teal-600 text-white py-2 px-4 rounded-lg", onClick: () => {
+            react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", { className: "bg-teel hover:bg-teal-600 text-white py-2 px-4 rounded-lg", onClick: () => {
                     const newReasons = Object.assign({}, reasonsData);
                     newReasons[`${year}-${month + 1}-${selectedDay}`] = selectedReasons;
-                    localStorage.setItem("moodReasons", JSON.stringify(newReasons));
+                    // localStorage.setItem("moodReasons", JSON.stringify(newReasons));
+                    const userRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_0__.doc)(db, "users", user.email);
+                    (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_0__.setDoc)(userRef, { moodReasons: newReasons }, { merge: true });
                     setSelectedDay(null);
                     setMood(true);
                 } }, "Save"))));
@@ -983,18 +1209,33 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/format/index.js");
-/* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/format/index.js");
+/* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
+/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! firebase/firestore */ "./node_modules/firebase/firestore/dist/esm/index.esm.js");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 
 
 
-const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos }) => {
+
+const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos, user, db, selectedMember, setSelectedMember, }) => {
     const [selected, setSelected] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1);
     const [showPopup, setShowPopup] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     const [timeFormat, setTimeFormat] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("mins");
     const [acctimeFormat, setaccTimeFormat] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("mins");
     const selectRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
     const selectRef2 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+    const [code, setCode] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+    const [members, setMembers] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+    const [groupExists, setGroupExists] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
     const handleKeyPress = (event) => {
         if (event.key === "Enter" && event.target.value.trim() !== "") {
             const newTodo = {
@@ -1003,8 +1244,8 @@ const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos }) => {
                 actualTime: "",
                 completed: false,
             };
-            const todosForCurrentDay = todos[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")] || [];
-            setTodos(Object.assign(Object.assign({}, todos), { [(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")]: [...todosForCurrentDay, newTodo] }));
+            const todosForCurrentDay = todos[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")] || [];
+            setTodos(Object.assign(Object.assign({}, todos), { [(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")]: [...todosForCurrentDay, newTodo] }));
             event.target.value = "";
         }
     };
@@ -1016,11 +1257,10 @@ const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos }) => {
     };
     const handleCheckboxChange = (event, date, index) => {
         const newTodos = Object.assign({}, todos);
-        newTodos[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")][index].completed =
+        newTodos[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")][index].completed =
             event.target.checked;
         setSelected(index);
         if (event.target.checked) {
-            console.log("switched to true");
             setShowPopup(true);
         }
         setTodos(newTodos);
@@ -1029,13 +1269,13 @@ const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos }) => {
         const newTodos = Object.assign({}, todos);
         if (updateTime) {
             const formatting = getValue2();
-            newTodos[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")][selected].actualTime =
+            newTodos[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")][selected].actualTime =
                 event.target.value;
-            newTodos[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")][selected].acctimeFormat =
+            newTodos[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")][selected].acctimeFormat =
                 formatting;
         }
         else {
-            newTodos[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")][selected].acctimeFormat =
+            newTodos[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")][selected].acctimeFormat =
                 value;
         }
         setTodos(newTodos);
@@ -1047,13 +1287,13 @@ const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos }) => {
         const newTodos = Object.assign({}, todos);
         if (updateTime) {
             const selectValue = getValue();
-            newTodos[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")][index].plannedTime =
+            newTodos[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")][index].plannedTime =
                 event.target.value.trim();
-            newTodos[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")][index].timeFormat =
+            newTodos[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")][index].timeFormat =
                 selectValue;
         }
         else {
-            newTodos[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")][index].timeFormat = value;
+            newTodos[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")][index].timeFormat = value;
         }
         setTodos(newTodos);
     };
@@ -1064,16 +1304,61 @@ const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos }) => {
     };
     const handleDeleteClick = (index) => {
         const newTodos = Object.assign({}, todos);
-        newTodos[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")].splice(index, 1);
+        newTodos[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")].splice(index, 1);
         setTodos(newTodos);
     };
-    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "text", placeholder: "Add a new to do item...", onKeyPress: handleKeyPress, className: " p-2 w-80 rounded border border-gray-200 outline-none" }),
+    const fetchGroup = () => __awaiter(void 0, void 0, void 0, function* () {
+        const userDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "users", user.email);
+        const userDoc = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getDoc)(userDocRef);
+        let membersnames = [];
+        if (userDoc.exists()) {
+            const groupCode = userDoc.data().group;
+            if (groupCode) {
+                setCode(groupCode);
+                setGroupExists(true);
+                const groupDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "groups", groupCode);
+                const groupDoc = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getDoc)(groupDocRef);
+                if (groupDoc.exists()) {
+                    const members = groupDoc
+                        .data()
+                        .members.filter((member) => member !== user.email);
+                    for (const mem of members) {
+                        const userDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "users", mem);
+                        const userDoc = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getDoc)(userDocRef);
+                        if (userDoc.exists()) {
+                            const membername = userDoc.data().name;
+                            membersnames.push({ name: membername, email: mem });
+                        }
+                        else {
+                            console.log("error finding member");
+                        }
+                    }
+                    setMembers(membersnames);
+                    setLoading(false);
+                }
+            }
+        }
+    });
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        fetchGroup();
+    }, []);
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col" },
+        code && groupExists && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, " You're in an accountability group! Help friends reach goals!"),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex items-center my-2" },
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { htmlFor: "group-member-select", className: "w-32 mr-2" }, "See to do's for:"),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", { id: "group-member-select", ref: selectRef, onChange: (e) => {
+                        setSelectedMember(e.target.value);
+                    }, className: "p-2 w-full rounded border border-gray-200 outline-none" },
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: user.email }, "meee!"),
+                    members.map((member) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { key: member.email, value: member.email }, member.name))))),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("hr", { className: "py-2" }))),
+        selectedMember == user.email && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "text", placeholder: "Add a new to do item...", onKeyPress: handleKeyPress, className: " p-2 w-80 rounded border border-gray-200 outline-none" })),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", { className: "my-2  " }, todos &&
-            todos[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")] &&
-            todos[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")].map((todo, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", { key: index, className: "flex items-center space-y-1 py-1 space-x-2 w-80" },
+            todos[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")] &&
+            todos[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")].map((todo, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", { key: index, className: "flex items-center space-y-1 py-1 space-x-2 w-80" },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex items-center w-[250px]" },
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "checkbox", checked: todo.completed, onChange: (event) => handleCheckboxChange(event, currentDay, index), className: "mr-2" }),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "checkbox", disabled: selectedMember != user.email, checked: todo.completed, onChange: (event) => handleCheckboxChange(event, currentDay, index), className: "mr-2" }),
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: todo.completed ? "line-through" : "" }, todo.text.length > 50
                         ? `${todo.text.slice(0, 45)}...${todo.text.slice(-2)}`
                         : todo.text)),
@@ -1091,9 +1376,17 @@ const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos }) => {
                             ? `${todo.actualTime}${todo.acctimeFormat}`
                             : "n/a"))),
                 !todo.completed && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex items-end" },
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "text", placeholder: "Planned time", value: todo.plannedTime, onChange: (event) => handlePlannedTimeChange(event, currentDay, index, true, null), onKeyPress: handleClosePopup, className: "p-1 text-xs rounded-l w-[85px] border border-gray-400 outline-none placeholder:text-xs justify-end" }),
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", { className: "p-1 rounded-r max-w-[60px] border-y border-r border-gray-400 outline-none text-xs", value: todos[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")][index].timeFormat
-                            ? todos[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")][index]
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { disabled: selectedMember != user.email, type: "text", placeholder: "Planned time", value: todo.plannedTime, onChange: (event) => handlePlannedTimeChange(event, currentDay, index, true, null), onKeyPress: (e) => {
+                            const charCode = e.which ? e.which : e.keyCode;
+                            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                                e.preventDefault();
+                            }
+                            else {
+                                handleClosePopup;
+                            }
+                        }, className: "p-1 text-xs rounded-l w-[85px] border border-gray-400 outline-none placeholder:text-xs justify-end" }),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", { disabled: selectedMember != user.email, className: "p-1 rounded-r max-w-[60px] border-y border-r border-gray-400 outline-none text-xs", value: todos[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")][index].timeFormat
+                            ? todos[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")][index]
                                 .timeFormat
                             : "mins", ref: selectRef, onChange: (e) => {
                             // let switchTo = timeFormat == "hrs" ? "mins" : "hrs";
@@ -1102,24 +1395,35 @@ const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos }) => {
                         } },
                         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "hrs" }, "hrs"),
                         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "mins" }, "mins")))),
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_2__.FaTrash, { className: "text-cpink text-lg cursor-pointer", onClick: () => handleDeleteClick(index) }))))),
+                selectedMember == user.email && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__.FaTrash, { className: "text-cpink text-lg cursor-pointer", onClick: () => handleDeleteClick(index) })))))),
         showPopup && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center", style: { zIndex: 9999 }, onClick: (event) => {
                 if (event.target === event.currentTarget) {
                     setShowPopup(false);
                 }
             } },
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "bg-white flex rounded-lg p-2 items-end" },
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "text", placeholder: "Actual time", value: todos[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")][selected].actualTime, onChange: (e) => handleActualTimeChange(e, currentDay, true, null), onKeyPress: handleClosePopup, className: "p-1 text-xs rounded-l border placeholder:text-xs border-gray-400 outline-none justify-end " }),
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", { className: "p-1 rounded-r max-w-[60px] border-y border-r border-gray-400 outline-none text-xs", value: todos[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")][selected].acctimeFormat
-                        ? todos[(0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])(currentDay, "yyyy-MM-dd")][selected]
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "bg-white  rounded-lg p-4 " },
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "p-1" }, "You're crushing your day!! \uD83E\uDD73\uD83C\uDF89\uD83C\uDF8A"),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex items-end" },
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "text", placeholder: "Actual time", value: todos[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")][selected].actualTime, onChange: (e) => handleActualTimeChange(e, currentDay, true, null), onKeyPress: (e) => {
+                            const charCode = e.which ? e.which : e.keyCode;
+                            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                                e.preventDefault();
+                            }
+                            else {
+                                handleClosePopup;
+                            }
+                        }, className: "p-1 text-xs rounded-l border placeholder:text-xs border-gray-400 outline-none justify-end " }),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", { className: "p-1 rounded-r max-w-[60px] border-y border-r border-gray-400 outline-none text-xs", value: todos[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")][selected]
                             .acctimeFormat
-                        : "mins", ref: selectRef2, onChange: (e) => {
-                        // let switchTo = acctimeFormat == "hrs" ? "mins" : "hrs";
-                        // setaccTimeFormat(switchTo);
-                        handleActualTimeChange(e, currentDay, false, e.target.value ? e.target.value : "mins");
-                    } },
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "hrs" }, "hrs"),
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "mins" }, "mins")))))));
+                            ? todos[(0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(currentDay, "yyyy-MM-dd")][selected]
+                                .acctimeFormat
+                            : "mins", ref: selectRef2, onChange: (e) => {
+                            // let switchTo = acctimeFormat == "hrs" ? "mins" : "hrs";
+                            // setaccTimeFormat(switchTo);
+                            handleActualTimeChange(e, currentDay, false, e.target.value ? e.target.value : "mins");
+                        } },
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "hrs" }, "hrs"),
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "mins" }, "mins"))))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TodoComp);
 
@@ -1210,8 +1514,8 @@ const FirebaseApp = (props) => {
     //return this when there is a user
     if (user != null) {
         checkIfFirstTime();
-        return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "w-full h-full" }, firstTime === null ? (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex items-center justify-center h-full min-h-[400px] w-full" },
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900" }))) : firstTime ? (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Signup__WEBPACK_IMPORTED_MODULE_6__["default"], { user: user, db: db })) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Router__WEBPACK_IMPORTED_MODULE_4__["default"], { user: user, auth: auth, db: db }))));
+        return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "w-full h-full" }, firstTime === null ? (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex items-center justify-center h-full w-full" },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900" }))) : firstTime ? (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Signup__WEBPACK_IMPORTED_MODULE_6__["default"], { user: user, db: db, setFirstTime: setFirstTime })) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Router__WEBPACK_IMPORTED_MODULE_4__["default"], { user: user, auth: auth, db: db }))));
     }
     //return this when there is no user
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex place-self-center flex-col w-full 2-full place-items-center items-center justify-center h-[400px]" },

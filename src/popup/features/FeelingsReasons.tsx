@@ -1,3 +1,4 @@
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 
@@ -7,23 +8,38 @@ const FeelingsReasons = ({
   year,
   month,
   setSelectedDay,
+  user,
+  db,
 }) => {
   const [reasonsData, setReasonsData] = useState([]);
   const [selectedReasons, setSelectedReasons] = useState([]);
 
+  const gettingData = async () => {
+    const docRef = doc(db, "users", user.email);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data().moodReasons;
+      console.log("Document data:", data);
+      if (data) {
+        setReasonsData(data);
+        console.log(data[`${year}-${month + 1}-${selectedDay}`]);
+        console.log(year, month, selectedDay);
+        setSelectedReasons(
+          data[`${year}-${month + 1}-${selectedDay}`]
+            ? data[`${year}-${month + 1}-${selectedDay}`]
+            : []
+        );
+      }
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  };
+
   // Load reasons from local storage on mount
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("moodReasons"));
-    if (data) {
-      setReasonsData(data);
-      console.log(data[`${year}-${month + 1}-${selectedDay}`]);
-      console.log(year, month, selectedDay);
-      setSelectedReasons(
-        data[`${year}-${month + 1}-${selectedDay}`]
-          ? data[`${year}-${month + 1}-${selectedDay}`]
-          : []
-      );
-    }
+    gettingData();
   }, []);
 
   //   useEffect(() => {
@@ -87,7 +103,9 @@ const FeelingsReasons = ({
           onClick={() => {
             const newReasons = { ...reasonsData };
             newReasons[`${year}-${month + 1}-${selectedDay}`] = selectedReasons;
-            localStorage.setItem("moodReasons", JSON.stringify(newReasons));
+            // localStorage.setItem("moodReasons", JSON.stringify(newReasons));
+            const userRef = doc(db, "users", user.email);
+            setDoc(userRef, { moodReasons: newReasons }, { merge: true });
             setSelectedDay(null);
             setMood(true);
           }}

@@ -75,11 +75,11 @@ const FirebaseApp = (props) => {
     return (
       <div className="w-full h-full">
         {firstTime === null ? (
-          <div className="flex items-center justify-center h-full min-h-[400px] w-full">
+          <div className="flex items-center justify-center h-full w-full">
             <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900"></div>
           </div>
         ) : firstTime ? (
-          <Signup user={user} db={db} />
+          <Signup user={user} db={db} setFirstTime={setFirstTime} />
         ) : (
           <Navigation user={user} auth={auth} db={db} />
         )}

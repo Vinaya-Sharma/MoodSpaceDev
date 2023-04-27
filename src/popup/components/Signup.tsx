@@ -1,7 +1,7 @@
 import React from "react";
 import { doc, setDoc } from "firebase/firestore";
 
-const Signup = ({ user, db }) => {
+const Signup = ({ user, db, setFirstTime }) => {
   const [name, setName] = React.useState("");
   const [age, setAge] = React.useState("");
   const [reason, setReason] = React.useState("productivity");
@@ -18,6 +18,7 @@ const Signup = ({ user, db }) => {
       const userData = {
         name,
         age,
+        photo: user.photoURL,
         reason: thereason,
       };
       await setDoc(doc(db, "users", user.email), userData);
@@ -26,6 +27,7 @@ const Signup = ({ user, db }) => {
       console.error("Error writing user data to Firestore:", error);
     } finally {
       setSubmitting(false);
+      setFirstTime(false);
     }
   };
 

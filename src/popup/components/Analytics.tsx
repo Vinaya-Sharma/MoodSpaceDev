@@ -4,28 +4,49 @@ import FeelingReasons from "../features/FeelingsReasons";
 import MoodTrends from "../analytics/MoodTrends";
 import MoodChart from "../analytics/MoodChart";
 import ActivityCorrelations from "../analytics/ActivitiyCorrelations";
+import { collection, doc, getDoc, onSnapshot } from "firebase/firestore";
 
-const Analytics = () => {
+const Analytics = ({ db, user }) => {
   interface MoodByDayData {
     [key: string]: string;
   }
   const [moodByDayData, setMoodByDayData] = useState<MoodByDayData>({});
   const [reasonsByDayData, setReasonsByDayData] = useState({});
 
-  //setting moods
+  const gettingData = async () => {
+    const docRef = doc(db, "users", user.email);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data().moodReasons;
+      console.log("Document data:", data);
+      if (data) {
+        setReasonsByDayData(data);
+      }
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  };
+
   useEffect(() => {
-    const moodByDayDataFromStorage = JSON.parse(
-      localStorage.getItem("moodByDay") || "{}"
-    );
-    setMoodByDayData(moodByDayDataFromStorage);
-  }, []);
+    const moodByDayRef = collection(db, "users", user.email, "moodByDay");
+    const unsubscribe = onSnapshot(moodByDayRef, (querySnapshot) => {
+      const moodByDay = {};
+      querySnapshot.forEach((doc) => {
+        const date = doc.id;
+        const mood = doc.data();
+        moodByDay[date] = mood.emoji;
+      });
+      console.log(moodByDay);
+      setMoodByDayData(moodByDay);
+    });
+    return unsubscribe;
+  }, [user, db]);
 
   //setting activities
   useEffect(() => {
-    const activitiesByDaya = JSON.parse(
-      localStorage.getItem("moodReasons") || "{}"
-    );
-    setReasonsByDayData(activitiesByDaya);
+    gettingData();
   }, []);
 
   return (

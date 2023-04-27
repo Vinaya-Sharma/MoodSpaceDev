@@ -1,14 +1,27 @@
 import React, { useState, useEffect, useRef } from "react";
 import { format } from "date-fns";
 import { FaTrash } from "react-icons/fa";
+import { doc, getDoc } from "firebase/firestore";
 
-const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos }) => {
+const TodoComp = ({
+  currentDay,
+  setTodosData: setTodos,
+  todosData: todos,
+  user,
+  db,
+  selectedMember,
+  setSelectedMember,
+}) => {
   const [selected, setSelected] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
   const [timeFormat, setTimeFormat] = useState("mins");
   const [acctimeFormat, setaccTimeFormat] = useState("mins");
   const selectRef = useRef(null);
   const selectRef2 = useRef(null);
+  const [code, setCode] = useState("");
+  const [members, setMembers] = useState([]);
+  const [groupExists, setGroupExists] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter" && event.target.value.trim() !== "") {
@@ -45,7 +58,6 @@ const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos }) => {
     setSelected(index);
 
     if (event.target.checked) {
-      console.log("switched to true");
       setShowPopup(true);
     }
 
@@ -98,14 +110,83 @@ const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos }) => {
     setTodos(newTodos);
   };
 
+  const fetchGroup = async () => {
+    const userDocRef = doc(db, "users", user.email);
+    const userDoc = await getDoc(userDocRef);
+    let membersnames = [];
+
+    if (userDoc.exists()) {
+      const groupCode = userDoc.data().group;
+
+      if (groupCode) {
+        setCode(groupCode);
+        setGroupExists(true);
+
+        const groupDocRef = doc(db, "groups", groupCode);
+        const groupDoc = await getDoc(groupDocRef);
+        if (groupDoc.exists()) {
+          const members = groupDoc
+            .data()
+            .members.filter((member) => member !== user.email);
+
+          for (const mem of members) {
+            const userDocRef = doc(db, "users", mem);
+            const userDoc = await getDoc(userDocRef);
+            if (userDoc.exists()) {
+              const membername = userDoc.data().name;
+              membersnames.push({ name: membername, email: mem });
+            } else {
+              console.log("error finding member");
+            }
+          }
+
+          setMembers(membersnames);
+          setLoading(false);
+        }
+      }
+    }
+  };
+  useEffect(() => {
+    fetchGroup();
+  }, []);
+
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Add a new to do item..."
-        onKeyPress={handleKeyPress}
-        className=" p-2 w-80 rounded border border-gray-200 outline-none"
-      />
+    <div className="flex flex-col">
+      {code && groupExists && (
+        <div>
+          <h1> You're in an accountability group! Help friends reach goals!</h1>
+          <div className="flex items-center my-2">
+            <label htmlFor="group-member-select" className="w-32 mr-2">
+              See to do's for:
+            </label>
+            <select
+              id="group-member-select"
+              ref={selectRef}
+              onChange={(e) => {
+                setSelectedMember(e.target.value);
+              }}
+              className="p-2 w-full rounded border border-gray-200 outline-none"
+            >
+              <option value={user.email}>meee!</option>
+              {members.map((member) => (
+                <option key={member.email} value={member.email}>
+                  {member.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <hr className="py-2" />
+        </div>
+      )}
+
+      {selectedMember == user.email && (
+        <input
+          type="text"
+          placeholder="Add a new to do item..."
+          onKeyPress={handleKeyPress}
+          className=" p-2 w-80 rounded border border-gray-200 outline-none"
+        />
+      )}
       <ul className="my-2  ">
         {todos &&
           todos[format(currentDay, "yyyy-MM-dd")] &&
@@ -117,6 +198,7 @@ const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos }) => {
               <div className="flex items-center w-[250px]">
                 <input
                   type="checkbox"
+                  disabled={selectedMember != user.email}
                   checked={todo.completed}
                   onChange={(event) =>
                     handleCheckboxChange(event, currentDay, index)
@@ -149,6 +231,7 @@ const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos }) => {
               {!todo.completed && (
                 <div className="flex items-end">
                   <input
+                    disabled={selectedMember != user.email}
                     type="text"
                     placeholder="Planned time"
                     value={todo.plannedTime}
@@ -161,10 +244,18 @@ const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos }) => {
                         null
                       )
                     }
-                    onKeyPress={handleClosePopup}
+                    onKeyPress={(e) => {
+                      const charCode = e.which ? e.which : e.keyCode;
+                      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                        e.preventDefault();
+                      } else {
+                        handleClosePopup;
+                      }
+                    }}
                     className="p-1 text-xs rounded-l w-[85px] border border-gray-400 outline-none placeholder:text-xs justify-end"
                   />
                   <select
+                    disabled={selectedMember != user.email}
                     className="p-1 rounded-r max-w-[60px] border-y border-r border-gray-400 outline-none text-xs"
                     value={
                       todos[format(currentDay, "yyyy-MM-dd")][index].timeFormat
@@ -191,10 +282,12 @@ const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos }) => {
                 </div>
               )}
 
-              <FaTrash
-                className="text-cpink text-lg cursor-pointer"
-                onClick={() => handleDeleteClick(index)}
-              />
+              {selectedMember == user.email && (
+                <FaTrash
+                  className="text-cpink text-lg cursor-pointer"
+                  onClick={() => handleDeleteClick(index)}
+                />
+              )}
             </li>
           ))}
       </ul>
@@ -208,42 +301,53 @@ const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos }) => {
             }
           }}
         >
-          <div className="bg-white flex rounded-lg p-2 items-end">
-            <input
-              type="text"
-              placeholder="Actual time"
-              value={
-                todos[format(currentDay, "yyyy-MM-dd")][selected].actualTime
-              }
-              onChange={(e) =>
-                handleActualTimeChange(e, currentDay, true, null)
-              }
-              onKeyPress={handleClosePopup}
-              className="p-1 text-xs rounded-l border placeholder:text-xs border-gray-400 outline-none justify-end "
-            />
-            <select
-              className="p-1 rounded-r max-w-[60px] border-y border-r border-gray-400 outline-none text-xs"
-              value={
-                todos[format(currentDay, "yyyy-MM-dd")][selected].acctimeFormat
-                  ? todos[format(currentDay, "yyyy-MM-dd")][selected]
-                      .acctimeFormat
-                  : "mins"
-              }
-              ref={selectRef2}
-              onChange={(e) => {
-                // let switchTo = acctimeFormat == "hrs" ? "mins" : "hrs";
-                // setaccTimeFormat(switchTo);
-                handleActualTimeChange(
-                  e,
-                  currentDay,
-                  false,
-                  e.target.value ? e.target.value : "mins"
-                );
-              }}
-            >
-              <option value="hrs">hrs</option>
-              <option value="mins">mins</option>
-            </select>
+          <div className="bg-white  rounded-lg p-4 ">
+            <h1 className="p-1">You're crushing your day!! 🥳🎉🎊</h1>
+            <div className="flex items-end">
+              <input
+                type="text"
+                placeholder="Actual time"
+                value={
+                  todos[format(currentDay, "yyyy-MM-dd")][selected].actualTime
+                }
+                onChange={(e) =>
+                  handleActualTimeChange(e, currentDay, true, null)
+                }
+                onKeyPress={(e) => {
+                  const charCode = e.which ? e.which : e.keyCode;
+                  if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                    e.preventDefault();
+                  } else {
+                    handleClosePopup;
+                  }
+                }}
+                className="p-1 text-xs rounded-l border placeholder:text-xs border-gray-400 outline-none justify-end "
+              />
+              <select
+                className="p-1 rounded-r max-w-[60px] border-y border-r border-gray-400 outline-none text-xs"
+                value={
+                  todos[format(currentDay, "yyyy-MM-dd")][selected]
+                    .acctimeFormat
+                    ? todos[format(currentDay, "yyyy-MM-dd")][selected]
+                        .acctimeFormat
+                    : "mins"
+                }
+                ref={selectRef2}
+                onChange={(e) => {
+                  // let switchTo = acctimeFormat == "hrs" ? "mins" : "hrs";
+                  // setaccTimeFormat(switchTo);
+                  handleActualTimeChange(
+                    e,
+                    currentDay,
+                    false,
+                    e.target.value ? e.target.value : "mins"
+                  );
+                }}
+              >
+                <option value="hrs">hrs</option>
+                <option value="mins">mins</option>
+              </select>
+            </div>
           </div>
         </div>
       )}

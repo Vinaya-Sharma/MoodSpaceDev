@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import MoodPicker from "./MoodPicker";
 import FeelingsReasons from "./FeelingsReasons";
 
-const CalendarComp = ({ year, month, moodByDay, setMoodByDay }) => {
+const CalendarComp = ({ year, month, moodByDay, setMoodByDay, db, user }) => {
   const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const firstDayOfMonth = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -131,6 +131,8 @@ const CalendarComp = ({ year, month, moodByDay, setMoodByDay }) => {
                 year={year}
                 month={month}
                 setSelectedDay={setSelectedDay}
+                user={user}
+                db={db}
               />
             )}
           </div>

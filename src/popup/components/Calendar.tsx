@@ -10,6 +10,7 @@ import {
   getDoc,
   writeBatch,
 } from "firebase/firestore";
+import Quote from "../features/Qoutes";
 
 const Calendar = ({ db, user }) => {
   const [year, setYear] = useState(new Date().getFullYear());
@@ -99,6 +100,8 @@ const Calendar = ({ db, user }) => {
         month={month}
         moodByDay={moodByDay}
         setMoodByDay={setMoodByDay}
+        db={db}
+        user={user}
       />
     </div>
   );

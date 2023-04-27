@@ -20,9 +20,10 @@ const Intentions = ({ db, user }) => {
   const [journalByDay, setJournalByDay] = useState({});
   const [todosData, setTodosData] = useState({});
   const [showJournal, setShowJournal] = useState(false);
+  const [selectedMember, setSelectedMember] = useState(user.email);
 
   const gettododata = async () => {
-    const todosref = collection(db, "users", user.email, "todos");
+    const todosref = collection(db, "users", selectedMember, "todos");
     const unsubscribe = onSnapshot(todosref, (querySnapshot) => {
       const todosbyday = {};
       querySnapshot.forEach((doc) => {
@@ -40,7 +41,8 @@ const Intentions = ({ db, user }) => {
   useEffect(() => {
     getjournaldata();
     gettododata();
-  }, []);
+    console.log("change");
+  }, [selectedMember]);
 
   const getjournaldata = async () => {
     const journalsbydayjournalref = collection(
@@ -81,7 +83,7 @@ const Intentions = ({ db, user }) => {
   };
 
   useEffect(() => {
-    writetodostodatabase();
+    selectedMember == user.email && writetodostodatabase();
   }, [todosData]);
 
   // getting journals
@@ -117,7 +119,7 @@ const Intentions = ({ db, user }) => {
   };
 
   return (
-    <div className="justify-center font-serif w-80">
+    <div className="justify-center font-serif w-80 min-h-[475px]">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-medium font-serif ">
           {showJournal ? "Brain Dump" : "Intentions"}
@@ -177,6 +179,10 @@ const Intentions = ({ db, user }) => {
             currentDay={currentDay}
             setTodosData={setTodosData}
             todosData={todosData}
+            user={user}
+            db={db}
+            selectedMember={selectedMember}
+            setSelectedMember={setSelectedMember}
           />
         </div>
       )}

@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import Calendar from "./components/Calendar";
 import Intentions from "./components/Intentions";
 import Analytics from "./components/Analytics";
+import Accountability from "./components/Accountability";
 import { FaCalendarAlt, FaCheck, FaChartBar } from "react-icons/fa";
 import Header from "./components/Header";
+import { BsPerson } from "react-icons/bs";
 
 function Navigation({ user, auth, db }) {
   const tabs = [
@@ -17,7 +19,16 @@ function Navigation({ user, auth, db }) {
       icon: <FaCheck />,
       component: <Intentions db={db} user={user} />,
     },
-    { name: "Analytics", icon: <FaChartBar />, component: <Analytics /> },
+    {
+      name: "Analytics",
+      icon: <FaChartBar />,
+      component: <Analytics db={db} user={user} />,
+    },
+    {
+      name: "Accountability",
+      icon: <BsPerson />,
+      component: <Accountability db={db} user={user} />,
+    },
   ];
 
   const [activeTab, setActiveTab] = useState(tabs[0]);
@@ -30,10 +41,8 @@ function Navigation({ user, auth, db }) {
     <div className="flex w-full flex-col ">
       <Header user={user} auth={auth} />
       <hr />
-      <div className="flex p-10 min-h-[420px] justify-center">
-        {activeTab.component}
-      </div>
-      <div className="w-full flex  max-h-64 overflow-y-auto  justify-center items-center bg-teel text-white p-2 fixed bottom-0">
+      <div className="flex p-10 min-h-[450px]">{activeTab.component}</div>
+      <div className="w-full flex overflow-y-auto  justify-center items-center bg-teel text-white p-2 fixed bottom-0">
         {tabs.map((tab) => (
           <button
             key={tab.name}
