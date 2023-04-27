@@ -154,10 +154,9 @@ const TodoComp = ({
     <div className="flex flex-col">
       {code && groupExists && (
         <div>
-          <h1> You're in an accountability group! Help friends reach goals!</h1>
           <div className="flex items-center my-2">
             <label htmlFor="group-member-select" className="w-32 mr-2">
-              See to do's for:
+              Intentions for:
             </label>
             <select
               id="group-member-select"

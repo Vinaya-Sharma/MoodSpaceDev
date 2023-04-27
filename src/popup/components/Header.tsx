@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { BsFillGearFill } from "react-icons/bs";
+import AccountabilityPopup from "../features/AccountabilityPopup";
 
-function Header({ user, auth }) {
+function Header({ user, auth, db }) {
   const [showSettings, setShowSettings] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleLogout = () => {
     chrome.identity.getAuthToken({ interactive: true }, (token) => {
@@ -45,6 +47,15 @@ function Header({ user, auth }) {
             <div className="px-4 py-2 font-medium text-gray-800">
               Signed in as: {user.email}
             </div>
+            <div
+              onClick={() => {
+                setShowPopup(true);
+                setShowSettings(false);
+              }}
+              className="hover:text-teel cursor-pointer px-4 py-2 font-medium text-gray-800"
+            >
+              Accountabilibuddies
+            </div>
             <div className="py-2 border-t border-gray-300">
               <button
                 className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
@@ -56,6 +67,9 @@ function Header({ user, auth }) {
           </div>
         )}
       </div>
+      {showPopup && (
+        <AccountabilityPopup user={user} db={db} setShowPopup={setShowPopup} />
+      )}
     </div>
   );
 }

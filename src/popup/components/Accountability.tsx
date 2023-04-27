@@ -10,6 +10,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
+// this page is not being used right now. its the accountability popup page version
 const Accountability = ({ db, user }) => {
   const [code, setCode] = useState("");
   const [groupName, setGroupName] = useState("");
@@ -123,17 +124,17 @@ const Accountability = ({ db, user }) => {
   return (
     <div className="flex w-80 h-[475px] pb-8 flex-col gap-4 ">
       <h2 className="text-2xl flex flex-col font-medium font-serif flex-start justify-start w-full text-left">
-        Accountability Group!
+        Accountability Groups!
         <span className="text-sm font-bold">
-          See friends daily goals and help them stay on track
+          Join one to hold your friends accountable
         </span>
       </h2>
       {/* <img src={user.photoURL} /> */}
       {!groupExists ? (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-          <div className="max-w-md p-6 mx-auto bg-white shadow-md rounded-lg">
-            <h1 className="text-2xl font-bold mb-6 text-center">
-              Create or Join a Group
+        <div className="flex flex-col">
+          <div>
+            <h1 className="text-md mb-6">
+              Enter a name/code to create/join a group
             </h1>
             <div className="flex flex-col space-y-4">
               <div className="flex items-center space-x-4">
@@ -142,11 +143,14 @@ const Accountability = ({ db, user }) => {
                   value={groupName}
                   onChange={handleGroupNameChange}
                   placeholder="Group Name"
-                  className="flex-grow px-4 py-2 text-gray-700 border border-gray-400 rounded-lg focus:outline-none focus:border-teal-500"
+                  className="flex-grow px-4 py-2 w-full text-gray-700 border border-gray-400 rounded-lg focus:outline-none focus:border-cpink"
                 />
                 <button
                   onClick={handleCreateGroup}
-                  className="px-4 py-2 font-medium text-white bg-teal-500 rounded-lg hover:bg-teal-600"
+                  disabled={!groupName}
+                  className={`${
+                    groupName ? "bg-red-400" : "bg-cpink"
+                  } hover:bg-cpink px-4 rounded-lg py-2 w-52 font-medium text-white `}
                 >
                   Create Group
                 </button>
@@ -157,11 +161,14 @@ const Accountability = ({ db, user }) => {
                   value={code}
                   onChange={handleCodeChange}
                   placeholder="Enter Code"
-                  className="flex-grow px-4 py-2 text-gray-700 border border-gray-400 rounded-lg focus:outline-none focus:border-teal-500"
+                  className="flex-grow px-4 py-2 w-full text-gray-700 border border-gray-400 rounded-lg focus:outline-none focus:border-cpink"
                 />
                 <button
                   onClick={handleJoinGroup}
-                  className="px-4 py-2 font-medium text-white bg-teal-500 rounded-lg hover:bg-teal-600"
+                  disabled={!code}
+                  className={`${
+                    code ? "bg-red-400" : "bg-cpink"
+                  } hover:bg-cpink px-4 rounded-lg py-2 w-52  font-medium text-white `}
                 >
                   Join Group
                 </button>

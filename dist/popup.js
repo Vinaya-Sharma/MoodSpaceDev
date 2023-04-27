@@ -41,12 +41,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Calendar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Calendar */ "./src/popup/components/Calendar.tsx");
 /* harmony import */ var _components_Intentions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Intentions */ "./src/popup/components/Intentions.tsx");
 /* harmony import */ var _components_Analytics__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Analytics */ "./src/popup/components/Analytics.tsx");
-/* harmony import */ var _components_Accountability__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Accountability */ "./src/popup/components/Accountability.tsx");
-/* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
-/* harmony import */ var _components_Header__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Header */ "./src/popup/components/Header.tsx");
-/* harmony import */ var react_icons_bs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-icons/bs */ "./node_modules/react-icons/bs/index.esm.js");
-
-
+/* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
+/* harmony import */ var _components_Header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Header */ "./src/popup/components/Header.tsx");
 
 
 
@@ -57,34 +53,34 @@ function Navigation({ user, auth, db }) {
     const tabs = [
         {
             name: "Calendar",
-            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_6__.FaCalendarAlt, null),
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__.FaCalendarAlt, null),
             component: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Calendar__WEBPACK_IMPORTED_MODULE_1__["default"], { db: db, user: user }),
         },
         {
             name: "To Do List",
-            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_6__.FaCheck, null),
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__.FaCheck, null),
             component: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Intentions__WEBPACK_IMPORTED_MODULE_2__["default"], { db: db, user: user }),
         },
         {
             name: "Analytics",
-            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_6__.FaChartBar, null),
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__.FaChartBar, null),
             component: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Analytics__WEBPACK_IMPORTED_MODULE_3__["default"], { db: db, user: user }),
         },
-        {
-            name: "Accountability",
-            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_bs__WEBPACK_IMPORTED_MODULE_7__.BsPerson, null),
-            component: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Accountability__WEBPACK_IMPORTED_MODULE_4__["default"], { db: db, user: user }),
-        },
+        // {
+        //   name: "Accountability",
+        //   icon: <BsPerson />,
+        //   component: <Accountability db={db} user={user} />,
+        // },
     ];
     const [activeTab, setActiveTab] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(tabs[0]);
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full flex-col " },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Header__WEBPACK_IMPORTED_MODULE_5__["default"], { user: user, auth: auth }),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Header__WEBPACK_IMPORTED_MODULE_4__["default"], { user: user, auth: auth, db: db }),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("hr", null),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex p-10 min-h-[450px]" }, activeTab.component),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "w-full flex overflow-y-auto  justify-center items-center bg-teel text-white p-2 fixed bottom-0" }, tabs.map((tab) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { key: tab.name, className: `flex flex-col items-center mr-4 ${activeTab === tab ? "text-white" : "text-gray-300"}`, onClick: () => handleTabClick(tab) },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "w-full flex overflow-y-auto  justify-center items-center bg-teel text-white p-2 fixed bottom-0" }, tabs.map((tab) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { key: tab.name, className: `flex flex-col items-center mr-4 ${activeTab.name === tab.name ? "text-white" : "text-gray-300"}`, onClick: () => handleTabClick(tab) },
             tab.icon,
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, tab.name)))))));
 }
@@ -243,156 +239,6 @@ const MoodChart = ({ data }) => {
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement(recharts__WEBPACK_IMPORTED_MODULE_6__.Line, { type: "monotone", dataKey: "mood", stroke: "#8884d8", activeDot: { r: 8 }, dot: { r: 4 }, strokeWidth: 2 }))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MoodChart);
-
-
-/***/ }),
-
-/***/ "./src/popup/components/Accountability.tsx":
-/*!*************************************************!*\
-  !*** ./src/popup/components/Accountability.tsx ***!
-  \*************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! firebase/firestore */ "./node_modules/firebase/firestore/dist/esm/index.esm.js");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-
-
-const Accountability = ({ db, user }) => {
-    const [code, setCode] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-    const [groupName, setGroupName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-    const [members, setMembers] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-    const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-    const [groupExists, setGroupExists] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
-    const fetchGroup = () => __awaiter(void 0, void 0, void 0, function* () {
-        const userDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "users", user.email);
-        const userDoc = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getDoc)(userDocRef);
-        let membersnames = [];
-        if (userDoc.exists()) {
-            const groupCode = userDoc.data().group;
-            if (groupCode) {
-                setCode(groupCode);
-                setGroupExists(true);
-                const groupDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "groups", groupCode);
-                const groupDoc = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getDoc)(groupDocRef);
-                if (groupDoc.exists()) {
-                    const members = groupDoc
-                        .data()
-                        .members.filter((member) => member !== user.email);
-                    for (const mem of members) {
-                        const userDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "users", mem);
-                        const userDoc = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getDoc)(userDocRef);
-                        if (userDoc.exists()) {
-                            const membername = userDoc.data().name;
-                            const memberphoto = userDoc.data().photo;
-                            membersnames.push({
-                                name: membername,
-                                email: mem,
-                                photo: memberphoto,
-                            });
-                        }
-                        else {
-                            console.log("error finding member");
-                        }
-                    }
-                    setMembers(membersnames);
-                    setLoading(false);
-                }
-            }
-        }
-    });
-    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        fetchGroup();
-    }, []);
-    const handleCodeChange = (e) => {
-        setCode(e.target.value);
-    };
-    const handleGroupNameChange = (e) => {
-        setGroupName(e.target.value);
-    };
-    const handleCreateGroup = () => __awaiter(void 0, void 0, void 0, function* () {
-        const groupsRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(db, "groups");
-        const code = generateCode();
-        yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.setDoc)((0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(groupsRef, code), {
-            groupName,
-            createdAt: (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.serverTimestamp)(),
-            members: [user.email],
-        });
-        // Update user profile
-        const userDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "users", user.email);
-        yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.updateDoc)(userDocRef, {
-            group: code,
-        });
-        setCode(code);
-        setGroupExists(true);
-    });
-    const handleJoinGroup = () => __awaiter(void 0, void 0, void 0, function* () {
-        const groupsRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(db, "groups");
-        const groupDoc = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getDoc)((0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(groupsRef, code));
-        if (groupDoc.exists()) {
-            yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.updateDoc)((0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(groupsRef, code), {
-                members: (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.arrayUnion)(user.email),
-            });
-            setGroupExists(true);
-            // Update user profile
-            const userDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "users", user.email);
-            yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.updateDoc)(userDocRef, {
-                group: code,
-            });
-        }
-        else {
-            setError("Invalid code, please try again.");
-        }
-    });
-    const generateCode = () => {
-        let code = "";
-        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        const codeLength = 6;
-        for (let i = 0; i < codeLength; i++) {
-            code += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
-        return code;
-    };
-    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-80 h-[475px] pb-8 flex-col gap-4 " },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", { className: "text-2xl flex flex-col font-medium font-serif flex-start justify-start w-full text-left" },
-            "Accountability Group!",
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "text-sm font-bold" }, "See friends daily goals and help them stay on track")),
-        !groupExists ? (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col items-center justify-center min-h-screen bg-gray-100" },
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "max-w-md p-6 mx-auto bg-white shadow-md rounded-lg" },
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "text-2xl font-bold mb-6 text-center" }, "Create or Join a Group"),
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col space-y-4" },
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex items-center space-x-4" },
-                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "text", value: groupName, onChange: handleGroupNameChange, placeholder: "Group Name", className: "flex-grow px-4 py-2 text-gray-700 border border-gray-400 rounded-lg focus:outline-none focus:border-teal-500" }),
-                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { onClick: handleCreateGroup, className: "px-4 py-2 font-medium text-white bg-teal-500 rounded-lg hover:bg-teal-600" }, "Create Group")),
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex items-center space-x-4" },
-                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "text", value: code, onChange: handleCodeChange, placeholder: "Enter Code", className: "flex-grow px-4 py-2 text-gray-700 border border-gray-400 rounded-lg focus:outline-none focus:border-teal-500" }),
-                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { onClick: handleJoinGroup, className: "px-4 py-2 font-medium text-white bg-teal-500 rounded-lg hover:bg-teal-600" }, "Join Group")))))) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex items-center gap-2" },
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { className: "text-md font-medium mb-2" }, "Group Code:"),
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "text", value: code, readOnly: true, className: "bg-gray-100 px-3 py-2 rounded-md mb-2" })),
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { className: "text-xs text-gray-500 mb-4" }, "^Share this code with others to join the group."),
-            loading ? (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { className: "text-lg font-medium mb-4" }, "Waiting for members to join...")) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { className: "text-md font-medium mb-2" }, "Members:"),
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", { className: "list-disc list-inside" }, members.map((member) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { key: member.email },
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", { src: member.photo }),
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { key: member.email, className: "text-sm text-gray-500 mb-1" }, member.name))))))),
-            error && react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { className: "text-red-500" }, error)))));
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Accountability);
 
 
 /***/ }),
@@ -582,11 +428,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_icons_bs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-icons/bs */ "./node_modules/react-icons/bs/index.esm.js");
+/* harmony import */ var react_icons_bs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-icons/bs */ "./node_modules/react-icons/bs/index.esm.js");
+/* harmony import */ var _features_AccountabilityPopup__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../features/AccountabilityPopup */ "./src/popup/features/AccountabilityPopup.tsx");
 
 
-function Header({ user, auth }) {
+
+function Header({ user, auth, db }) {
     const [showSettings, setShowSettings] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    const [showPopup, setShowPopup] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     const handleLogout = () => {
         chrome.identity.getAuthToken({ interactive: true }, (token) => {
             if (chrome.runtime.lastError) {
@@ -619,13 +468,18 @@ function Header({ user, auth }) {
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "w-full p-4 flex items-center justify-between" },
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "text-sm font-medium font-serif " }, "MoodSpace"),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative mr-4" },
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_bs__WEBPACK_IMPORTED_MODULE_1__.BsFillGearFill, { className: "text-sm cursor-pointer", onClick: () => setShowSettings(!showSettings) }),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_bs__WEBPACK_IMPORTED_MODULE_2__.BsFillGearFill, { className: "text-sm cursor-pointer", onClick: () => setShowSettings(!showSettings) }),
             showSettings && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "absolute right-2 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl z-10" },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "px-4 py-2 font-medium text-gray-800" },
                     "Signed in as: ",
                     user.email),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { onClick: () => {
+                        setShowPopup(true);
+                        setShowSettings(false);
+                    }, className: "hover:text-teel cursor-pointer px-4 py-2 font-medium text-gray-800" }, "Accountabilibuddies"),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "py-2 border-t border-gray-300" },
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { className: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900", onClick: handleLogout }, "Logout")))))));
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { className: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900", onClick: handleLogout }, "Logout"))))),
+        showPopup && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_features_AccountabilityPopup__WEBPACK_IMPORTED_MODULE_1__["default"], { user: user, db: db, setShowPopup: setShowPopup }))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Header);
 
@@ -858,6 +712,196 @@ const Signup = ({ user, db, setFirstTime }) => {
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { type: "submit", className: "bg-teal-500 w-full hover:bg-teal-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" }, "Submit")))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Signup);
+
+
+/***/ }),
+
+/***/ "./src/popup/features/AccountabilityPopup.tsx":
+/*!****************************************************!*\
+  !*** ./src/popup/features/AccountabilityPopup.tsx ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! firebase/firestore */ "./node_modules/firebase/firestore/dist/esm/index.esm.js");
+/* harmony import */ var react_icons_bs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-icons/bs */ "./node_modules/react-icons/bs/index.esm.js");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+const AccountabilityPopup = ({ db, user, setShowPopup }) => {
+    const [code, setCode] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+    const [groupName, setGroupName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+    const [members, setMembers] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+    const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+    const [groupExists, setGroupExists] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
+    const fetchGroup = () => __awaiter(void 0, void 0, void 0, function* () {
+        const userDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "users", user.email);
+        const userDoc = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getDoc)(userDocRef);
+        let membersnames = [];
+        if (userDoc.exists()) {
+            const groupCode = userDoc.data().group;
+            if (groupCode) {
+                setCode(groupCode);
+                setGroupExists(true);
+                const groupDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "groups", groupCode);
+                const groupDoc = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getDoc)(groupDocRef);
+                if (groupDoc.exists()) {
+                    const members = groupDoc
+                        .data()
+                        .members.filter((member) => member !== user.email);
+                    for (const mem of members) {
+                        const userDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "users", mem);
+                        const userDoc = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getDoc)(userDocRef);
+                        if (userDoc.exists()) {
+                            const membername = userDoc.data().name;
+                            const memberphoto = userDoc.data().photo;
+                            membersnames.push({
+                                name: membername,
+                                email: mem,
+                                photo: memberphoto,
+                            });
+                        }
+                        else {
+                            console.log("error finding member");
+                        }
+                    }
+                    setMembers(membersnames);
+                    setLoading(false);
+                }
+            }
+        }
+    });
+    const handleLeaveGroup = () => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            // Remove user from the group's members list
+            const groupDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "groups", code);
+            const groupDoc = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getDoc)(groupDocRef);
+            if (groupDoc.exists()) {
+                const members = groupDoc
+                    .data()
+                    .members.filter((member) => member !== user.email);
+                yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.updateDoc)(groupDocRef, { members });
+                // Remove group from the user's document
+                const userDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "users", user.email);
+                yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.updateDoc)(userDocRef, { group: null });
+                // Clear state
+                setMembers([]);
+                setGroupExists(false);
+                setCode("");
+            }
+        }
+        catch (error) {
+            console.log("Error leaving group:", error);
+        }
+    });
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        fetchGroup();
+    }, []);
+    const handleCodeChange = (e) => {
+        setCode(e.target.value);
+    };
+    const handleGroupNameChange = (e) => {
+        setGroupName(e.target.value);
+    };
+    const handleCreateGroup = () => __awaiter(void 0, void 0, void 0, function* () {
+        const groupsRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(db, "groups");
+        const code = generateCode();
+        yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.setDoc)((0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(groupsRef, code), {
+            groupName,
+            createdAt: (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.serverTimestamp)(),
+            members: [user.email],
+        });
+        // Update user profile
+        const userDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "users", user.email);
+        yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.updateDoc)(userDocRef, {
+            group: code,
+        });
+        setCode(code);
+        setGroupExists(true);
+    });
+    const handleJoinGroup = () => __awaiter(void 0, void 0, void 0, function* () {
+        const groupsRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(db, "groups");
+        const groupDoc = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getDoc)((0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(groupsRef, code));
+        if (groupDoc.exists()) {
+            yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.updateDoc)((0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(groupsRef, code), {
+                members: (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.arrayUnion)(user.email),
+            });
+            setGroupExists(true);
+            // Update user profile
+            const userDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(db, "users", user.email);
+            yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.updateDoc)(userDocRef, {
+                group: code,
+            });
+            fetchGroup();
+        }
+        else {
+            setError("Invalid code, please try again.");
+        }
+    });
+    const generateCode = () => {
+        let code = "";
+        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        const codeLength = 6;
+        for (let i = 0; i < codeLength; i++) {
+            code += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return code;
+    };
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center", style: { zIndex: 9999 }, onClick: (event) => {
+            if (event.target === event.currentTarget) {
+                setShowPopup(false);
+            }
+        } },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "bg-white w-[350px] h-auto rounded-lg pt-4 px-4 flex  " },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-80 mt-2 h-full items-center pb-8 flex-col gap-4 " },
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", { className: "text-2xl flex flex-col font-medium font-serif flex-start justify-start w-full text-left" },
+                    "Accountability Groups!",
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "text-sm font-bold" }, "Join one to hold your friends accountable")),
+                !groupExists ? (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col" },
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "text-md mb-6" }, "Enter a name/code to create/join a group"),
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col space-y-4" },
+                            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex items-center space-x-4" },
+                                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "text", value: groupName, onChange: handleGroupNameChange, placeholder: "Group Name", className: "flex-grow px-4 py-2 w-full text-gray-700 border border-gray-400 rounded-lg focus:outline-none focus:border-cpink" }),
+                                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { onClick: handleCreateGroup, disabled: !groupName, className: `${groupName ? "bg-red-400" : "bg-cpink"} hover:bg-cpink px-4 rounded-lg py-2 w-52 font-medium text-white ` }, "Create Group")),
+                            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex items-center space-x-4" },
+                                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "text", value: code, onChange: handleCodeChange, placeholder: "Enter Code", className: "flex-grow px-4 py-2 w-full text-gray-700 border border-gray-400 rounded-lg focus:outline-none focus:border-cpink" }),
+                                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { onClick: handleJoinGroup, disabled: !code, className: `${code ? "bg-red-400" : "bg-cpink"} hover:bg-cpink px-4 rounded-lg py-2 w-52  font-medium text-white ` }, "Join Group")))))) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " px-4" },
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex items-center gap-2" },
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { className: "text-md font-medium mb-2" }, "Group Code:"),
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "text", value: code, readOnly: true, className: "bg-gray-100  px-3 py-2 rounded-md mb-2" })),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { className: "text-xs text-gray-500 mb-4" }, "^Share this code with others to join the group."),
+                    !members.length ? (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { className: "text-md text-teal-500 font-medium mb-4" }, "Waiting for members to join...")) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { className: "text-md flex gap-4 font-medium mb-2" }, "Members:"),
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-[320px] justify-center flex-row overflow-scroll gap-4" },
+                            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col items-center justify-center", key: "me" },
+                                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", { className: "w-12 h-12 rounded-full ", src: user.photoURL }),
+                                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { className: "text-sm text-center text-gray-500 mb-1" }, "meee!!")),
+                            members.map((member) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col items-center justify-center", key: member.email },
+                                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", { className: "w-12 h-12 rounded-full ", src: member.photo }),
+                                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { key: member.email, className: "text-sm text-center text-gray-500 mb-1" }, member.name))))))),
+                    error && react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { className: "text-red-500" }, error))),
+                groupExists && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { onClick: handleLeaveGroup, className: "place-self-start flex items-center gap-2  bg-red-500 text-white rounded p-2" },
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null,
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_bs__WEBPACK_IMPORTED_MODULE_2__.BsArrowLeft, null)),
+                    "Leave Group"))))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AccountabilityPopup);
 
 
 /***/ }),
@@ -1344,9 +1388,8 @@ const TodoComp = ({ currentDay, setTodosData: setTodos, todosData: todos, user, 
     }, []);
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col" },
         code && groupExists && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, " You're in an accountability group! Help friends reach goals!"),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex items-center my-2" },
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { htmlFor: "group-member-select", className: "w-32 mr-2" }, "See to do's for:"),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { htmlFor: "group-member-select", className: "w-32 mr-2" }, "Intentions for:"),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", { id: "group-member-select", ref: selectRef, onChange: (e) => {
                         setSelectedMember(e.target.value);
                     }, className: "p-2 w-full rounded border border-gray-200 outline-none" },

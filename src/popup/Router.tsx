@@ -24,11 +24,11 @@ function Navigation({ user, auth, db }) {
       icon: <FaChartBar />,
       component: <Analytics db={db} user={user} />,
     },
-    {
-      name: "Accountability",
-      icon: <BsPerson />,
-      component: <Accountability db={db} user={user} />,
-    },
+    // {
+    //   name: "Accountability",
+    //   icon: <BsPerson />,
+    //   component: <Accountability db={db} user={user} />,
+    // },
   ];
 
   const [activeTab, setActiveTab] = useState(tabs[0]);
@@ -39,7 +39,7 @@ function Navigation({ user, auth, db }) {
 
   return (
     <div className="flex w-full flex-col ">
-      <Header user={user} auth={auth} />
+      <Header user={user} auth={auth} db={db} />
       <hr />
       <div className="flex p-10 min-h-[450px]">{activeTab.component}</div>
       <div className="w-full flex overflow-y-auto  justify-center items-center bg-teel text-white p-2 fixed bottom-0">
@@ -47,7 +47,7 @@ function Navigation({ user, auth, db }) {
           <button
             key={tab.name}
             className={`flex flex-col items-center mr-4 ${
-              activeTab === tab ? "text-white" : "text-gray-300"
+              activeTab.name === tab.name ? "text-white" : "text-gray-300"
             }`}
             onClick={() => handleTabClick(tab)}
           >
