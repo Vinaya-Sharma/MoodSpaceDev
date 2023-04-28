@@ -119,7 +119,7 @@ const Intentions = ({ db, user }) => {
   };
 
   return (
-    <div className="justify-center font-serif w-80 min-h-[475px]">
+    <div className="justify-center font-serif pb-4 w-80 h-[475px]">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-medium font-serif ">
           {showJournal ? "Brain Dump" : "Intentions"}

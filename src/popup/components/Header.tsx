@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { BsFillGearFill } from "react-icons/bs";
 import AccountabilityPopup from "../features/AccountabilityPopup";
+import ExportPopup from "../features/ExportPopup";
 
 function Header({ user, auth, db }) {
   const [showSettings, setShowSettings] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [showExport, setShowExport] = useState(false);
 
   const handleLogout = () => {
     chrome.identity.getAuthToken({ interactive: true }, (token) => {
@@ -54,7 +56,16 @@ function Header({ user, auth, db }) {
               }}
               className="hover:text-teel cursor-pointer px-4 py-2 font-medium text-gray-800"
             >
-              Accountabilibuddies
+              Accountability Groups
+            </div>
+            <div
+              onClick={() => {
+                setShowExport(true);
+                setShowSettings(false);
+              }}
+              className="hover:text-teel cursor-pointer px-4 py-2 font-medium text-gray-800"
+            >
+              Export Data
             </div>
             <div className="py-2 border-t border-gray-300">
               <button
@@ -69,6 +80,9 @@ function Header({ user, auth, db }) {
       </div>
       {showPopup && (
         <AccountabilityPopup user={user} db={db} setShowPopup={setShowPopup} />
+      )}
+      {showExport && (
+        <ExportPopup user={user} db={db} setShowPopup={setShowExport} />
       )}
     </div>
   );

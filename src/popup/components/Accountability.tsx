@@ -134,7 +134,7 @@ const Accountability = ({ db, user }) => {
         <div className="flex flex-col">
           <div>
             <h1 className="text-md mb-6">
-              Enter a name/code to create/join a group
+              Enter a name to create, or enter a code to join a group
             </h1>
             <div className="flex flex-col space-y-4">
               <div className="flex items-center space-x-4">

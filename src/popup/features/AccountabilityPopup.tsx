@@ -159,7 +159,7 @@ const AccountabilityPopup = ({ db, user, setShowPopup }) => {
       <div className="bg-white w-[350px] h-auto rounded-lg pt-4 px-4 flex  ">
         <div className="flex w-80 mt-2 h-full items-center pb-8 flex-col gap-4 ">
           <h2 className="text-2xl flex flex-col font-medium font-serif flex-start justify-start w-full text-left">
-            Accountability Groups!
+            Accountabilibuddies!
             <span className="text-sm font-bold">
               Join one to hold your friends accountable
             </span>
@@ -169,7 +169,7 @@ const AccountabilityPopup = ({ db, user, setShowPopup }) => {
             <div className="flex flex-col">
               <div>
                 <h1 className="text-md mb-6">
-                  Enter a name/code to create/join a group
+                  Enter a name to create, or enter a code to join a group
                 </h1>
                 <div className="flex flex-col space-y-4">
                   <div className="flex items-center space-x-4">

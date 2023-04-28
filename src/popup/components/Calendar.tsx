@@ -71,14 +71,20 @@ const Calendar = ({ db, user }) => {
   };
 
   return (
-    <div className="justify-center w-80 ">
+    <div className="justify-center font-serif w-80 h-[475px]">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-medium font-serif text-teal">
-          {new Date(year, month).toLocaleDateString("en-US", {
-            month: "long",
-            year: "numeric",
-          })}
-        </h2>
+        <div>
+          {" "}
+          <h2 className="text-2xl font-medium font-serif text-teal">
+            {new Date(year, month).toLocaleDateString("en-US", {
+              month: "long",
+              year: "numeric",
+            })}
+          </h2>
+          <h1 className="text-xs mt-1 font-bold max-w-[225px]">
+            Log Feelings Once Daily!
+          </h1>
+        </div>
 
         <div>
           <button
@@ -95,6 +101,7 @@ const Calendar = ({ db, user }) => {
           </button>
         </div>
       </div>
+
       <CalendarComp
         year={year}
         month={month}
@@ -103,6 +110,7 @@ const Calendar = ({ db, user }) => {
         db={db}
         user={user}
       />
+      {/* <Quote /> */}
     </div>
   );
 };

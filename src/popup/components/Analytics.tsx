@@ -50,7 +50,7 @@ const Analytics = ({ db, user }) => {
   }, []);
 
   return (
-    <div className="flex w-80 pb-8 flex-col items-center justify-center gap-4 ">
+    <div className="flex w-80 flex-col gap-4 mb-12  ">
       {/* <MoodTrends /> */}
       <h2 className="text-2xl flex flex-col font-medium font-serif flex-start justify-start w-full text-left">
         Emojinal Intelligence
@@ -61,6 +61,8 @@ const Analytics = ({ db, user }) => {
         moodByDayData={moodByDayData}
         activitiesByDay={reasonsByDayData}
       />
+      <div className="mb-12 text-white ">.</div>
+      <div className="mb-12 text-white ">.</div>
     </div>
   );
 };

@@ -37,27 +37,30 @@ const Journal = ({ currentDay, setJournalByDay, journalByDay, user, db }) => {
     setJournalInput(e.target.value);
   };
 
-  const handleSaveEntry = async () => {
-    const newJournal = {
-      ...journalByDay,
-      [format(currentDay, "yyyy-MM-dd")]: {
-        title: format(currentDay, "EEEE, MMMM d, yyyy"),
-        content: journalInput,
-      },
+  useEffect(() => {
+    const saveJournalEntry = async () => {
+      const newJournal = {
+        ...journalByDay,
+        [format(currentDay, "yyyy-MM-dd")]: {
+          title: format(currentDay, "EEEE, MMMM d, yyyy"),
+          content: journalInput,
+        },
+      };
+      setJournalByDay(newJournal);
+
+      console.log(journalByDay);
+      const batch = writeBatch(db);
+
+      Object.keys(newJournal).forEach((date) => {
+        const journalRef = doc(db, "users", user.email, "journals", date);
+        batch.set(journalRef, { ...newJournal[date] });
+      });
+
+      await batch.commit();
+      console.log("Journals written successfully");
     };
-    setJournalByDay(newJournal);
-
-    console.log(journalByDay);
-    const batch = writeBatch(db);
-
-    Object.keys(newJournal).forEach((date) => {
-      const journalRef = doc(db, "users", user.email, "journals", date);
-      batch.set(journalRef, { ...newJournal[date] });
-    });
-
-    await batch.commit();
-    console.log("Journals written successfully");
-  };
+    saveJournalEntry();
+  }, [journalInput]);
 
   // setting journals
   const writejournalstodatabase = async () => {
@@ -81,32 +84,18 @@ const Journal = ({ currentDay, setJournalByDay, journalByDay, user, db }) => {
       return journalByDay[formattedDate];
     }
   };
+
   return (
-    <div>
+    <div className="pb-14">
       <div>
         <textarea
-          className="shadow appearance-none border border-gray-200 min-h-[175px] text-left rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
+          className="shadow appearance-none border border-gray-200 min-h-[300px] text-left rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
           id="journal-input"
           placeholder="Write your journal here...
 This can be a daily reflection, summary of your day, or any thoughts you just want to note down :)"
           onChange={(e) => handleJournalInputChange(e)}
           value={journalInput}
         />
-        <button
-          className={`${
-            journalByDay[format(currentDay, "yyyy-MM-dd")]
-              ? journalByDay[format(currentDay, "yyyy-MM-dd")].content ==
-                journalInput
-                ? "bg-cpink"
-                : "bg-red-400"
-              : journalInput == ""
-              ? "bg-cpink"
-              : "bg-red-400"
-          } hover:bg-red-200 text-white mt-2 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline `}
-          onClick={handleSaveEntry}
-        >
-          Save Journal
-        </button>
       </div>
     </div>
   );

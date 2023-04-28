@@ -36,11 +36,15 @@ const CalendarComp = ({ year, month, moodByDay, setMoodByDay, db, user }) => {
       const emoji = moodByDay[`${year}-${month + 1}-${day}`];
       const emotion = emotions.find((e) => e.emoji === emoji);
       return (
-        <div
-          className={`w-6 h-6 rounded-full bg-${emotion.color} flex items-center justify-center text-xl`}
-          style={{ cursor: "pointer" }}
-        >
-          {moodByDay[`${year}-${month + 1}-${day}`]}
+        <div>
+          {" "}
+          <div
+            className={`w-6 h-6 rounded-full bg-${emotion.color} flex items-center justify-center text-xl`}
+            style={{ cursor: "pointer" }}
+          >
+            {moodByDay[`${year}-${month + 1}-${day}`]}
+          </div>
+          <span className="text-xs">{day}</span>
         </div>
       );
     }
@@ -48,7 +52,7 @@ const CalendarComp = ({ year, month, moodByDay, setMoodByDay, db, user }) => {
   };
 
   return (
-    <div className="grid w-80 grid-cols-7 gap-4 text-center">
+    <div className="grid w-80 grid-cols-7 gap-2 text-center">
       {weekdays.map((day) => (
         <div key={day} className="text-gray-700 font-medium">
           {day}
@@ -63,23 +67,27 @@ const CalendarComp = ({ year, month, moodByDay, setMoodByDay, db, user }) => {
       {days.map((day) => (
         <div
           key={day}
-          className={`flex items-center justify-center ${
+          className={`flex flex-col items-center justify-center ${
             selectedDay === day ? "bg-gray-200" : ""
           }`}
           onClick={() => handleDayClick(day)}
           style={{ cursor: "pointer" }}
         >
           {getEmojiForDay(day) || (
-            <div
-              className={`w-6 h-6 rounded-full ${
-                isCurrentDay(day) ? "bg-teel" : "bg-gray-300"
-              } `}
-              onClick={() => setSelectedDay(day)}
-              style={{ cursor: "pointer" }}
-            />
+            <div>
+              <div
+                className={`w-6 h-6 rounded-full ${
+                  isCurrentDay(day) ? "bg-teel" : "bg-gray-300"
+                } `}
+                onClick={() => setSelectedDay(day)}
+                style={{ cursor: "pointer" }}
+              ></div>
+              <span className="text-xs">{day}</span>
+            </div>
           )}
         </div>
       ))}
+
       {selectedDay !== null && (
         <div
           key={`popup_${selectedDay}`}

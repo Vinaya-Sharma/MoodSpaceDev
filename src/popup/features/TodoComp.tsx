@@ -30,6 +30,7 @@ const TodoComp = ({
         plannedTime: "",
         actualTime: "",
         completed: false,
+        date: format(currentDay, "yyyy-MM-dd"),
       };
 
       const todosForCurrentDay = todos[format(currentDay, "yyyy-MM-dd")] || [];
@@ -151,7 +152,7 @@ const TodoComp = ({
   }, []);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex pb-12 flex-col">
       {code && groupExists && (
         <div>
           <div className="flex items-center my-2">
