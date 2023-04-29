@@ -15,7 +15,7 @@ function Navigation({ user, auth, db }) {
       component: <Calendar db={db} user={user} />,
     },
     {
-      name: "To Do List",
+      name: "Reflect",
       icon: <FaCheck />,
       component: <Intentions db={db} user={user} />,
     },

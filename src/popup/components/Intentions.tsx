@@ -21,8 +21,66 @@ const Intentions = ({ db, user }) => {
   const [todosData, setTodosData] = useState({});
   const [showJournal, setShowJournal] = useState(false);
   const [selectedMember, setSelectedMember] = useState(user.email);
+  const [code, setCode] = useState("");
+  const [members, setMembers] = useState([]);
+  const [groupExists, setGroupExists] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [journalInput, setJournalInput] = useState(
+    journalByDay[format(currentDay, "yyyy-MM-dd")]
+      ? journalByDay[format(currentDay, "yyyy-MM-dd")].content
+      : ""
+  );
+
+  useEffect(() => {
+    setJournalInput(
+      journalByDay[format(currentDay, "yyyy-MM-dd")]
+        ? journalByDay[format(currentDay, "yyyy-MM-dd")].content
+        : ""
+    );
+  }, [currentDay]);
+
+  const fetchGroup = async () => {
+    const userDocRef = doc(db, "users", user.email);
+    const userDoc = await getDoc(userDocRef);
+    let membersnames = [];
+
+    if (userDoc.exists()) {
+      const groupCode = userDoc.data().group;
+
+      if (groupCode) {
+        setCode(groupCode);
+        setGroupExists(true);
+
+        const groupDocRef = doc(db, "groups", groupCode);
+        const groupDoc = await getDoc(groupDocRef);
+        if (groupDoc.exists()) {
+          const members = groupDoc
+            .data()
+            .members.filter((member) => member !== user.email);
+
+          for (const mem of members) {
+            const userDocRef = doc(db, "users", mem);
+            const userDoc = await getDoc(userDocRef);
+            if (userDoc.exists()) {
+              const membername = userDoc.data().name;
+              membersnames.push({ name: membername, email: mem });
+            } else {
+              console.log("error finding member");
+            }
+          }
+
+          setMembers(membersnames);
+          setLoading(false);
+        }
+      }
+    }
+  };
+  useEffect(() => {
+    fetchGroup();
+  }, []);
 
   const gettododata = async () => {
+    console.log("eunning");
     const todosref = collection(db, "users", selectedMember, "todos");
     const unsubscribe = onSnapshot(todosref, (querySnapshot) => {
       const todosbyday = {};
@@ -41,14 +99,15 @@ const Intentions = ({ db, user }) => {
   useEffect(() => {
     getjournaldata();
     gettododata();
-    console.log("change");
+    console.log("changed to", selectedMember);
   }, [selectedMember]);
 
   const getjournaldata = async () => {
+    console.log("running get journal data");
     const journalsbydayjournalref = collection(
       db,
       "users",
-      user.email,
+      selectedMember,
       "journals"
     );
     const unsubscribe = onSnapshot(journalsbydayjournalref, (querySnapshot) => {
@@ -61,6 +120,10 @@ const Intentions = ({ db, user }) => {
       });
       setJournalByDay(journalsbyday);
       console.log("journlas by day", journalByDay);
+      const input = journalsbyday[format(currentDay, "yyyy-MM-dd")]
+        ? journalsbyday[format(currentDay, "yyyy-MM-dd")].content
+        : "";
+      setJournalInput(input);
     });
     return unsubscribe;
   };
@@ -86,21 +149,22 @@ const Intentions = ({ db, user }) => {
     selectedMember == user.email && writetodostodatabase();
   }, [todosData]);
 
-  // getting journals
-  useEffect(() => {
-    const journaldayref = collection(db, "users", user.email, "journals");
-    const unsubscribe = onSnapshot(journaldayref, (querySnapshot) => {
-      const journalsbyday = {};
-      querySnapshot.forEach((doc) => {
-        const date = doc.id;
-        const journal = doc.data();
-        journalsbyday[date] = journal;
-      });
-      console.log(journalsbyday);
-      setJournalByDay(journalsbyday);
-    });
-    return unsubscribe;
-  }, [user, db]);
+  // useEffect(() => {
+  //   if (selectedMember == user.email) {
+  //     const journaldayref = collection(db, "users", user.email, "journals");
+  //     const unsubscribe = onSnapshot(journaldayref, (querySnapshot) => {
+  //       const journalsbyday = {};
+  //       querySnapshot.forEach((doc) => {
+  //         const date = doc.id;
+  //         const journal = doc.data();
+  //         journalsbyday[date] = journal;
+  //       });
+  //       console.log(journalsbyday);
+  //       setJournalByDay(journalsbyday);
+  //     });
+  //     return unsubscribe;
+  //   }
+  // }, [user, db]);
 
   const handlePrevDay = () => {
     setCurrentDay((prevDay) => {
@@ -108,6 +172,11 @@ const Intentions = ({ db, user }) => {
       newDay.setDate(newDay.getDate() - 1);
       return newDay;
     });
+    setJournalInput(
+      journalByDay[format(currentDay, "yyyy-MM-dd")]
+        ? journalByDay[format(currentDay, "yyyy-MM-dd")].content
+        : ""
+    );
   };
 
   const handleNextDay = () => {
@@ -116,13 +185,18 @@ const Intentions = ({ db, user }) => {
       newDay.setDate(newDay.getDate() + 1);
       return newDay;
     });
+    setJournalInput(
+      journalByDay[format(currentDay, "yyyy-MM-dd")]
+        ? journalByDay[format(currentDay, "yyyy-MM-dd")].content
+        : ""
+    );
   };
 
   return (
     <div className="justify-center font-serif pb-4 w-80 h-[475px]">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-medium font-serif ">
-          {showJournal ? "Brain Dump" : "Intentions"}
+          {showJournal ? "Brain Dump" : "To-dos"}
         </h2>
 
         <div>
@@ -171,6 +245,19 @@ const Intentions = ({ db, user }) => {
             journalByDay={journalByDay}
             user={user}
             db={db}
+            selectedMember={selectedMember}
+            setSelectedMember={setSelectedMember}
+            code={code}
+            setCode={setCode}
+            members={members}
+            setMembers={setMembers}
+            groupExists={groupExists}
+            setGroupExists={setGroupExists}
+            loading={loading}
+            setLoading={setLoading}
+            journalInput={journalInput}
+            setJournalInput={setJournalInput}
+            getjournaldata={getjournaldata}
           />
         </div>
       ) : (
@@ -183,6 +270,14 @@ const Intentions = ({ db, user }) => {
             db={db}
             selectedMember={selectedMember}
             setSelectedMember={setSelectedMember}
+            code={code}
+            setCode={setCode}
+            members={members}
+            setMembers={setMembers}
+            groupExists={groupExists}
+            setGroupExists={setGroupExists}
+            loading={loading}
+            setLoading={setLoading}
           />
         </div>
       )}

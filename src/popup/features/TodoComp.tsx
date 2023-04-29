@@ -11,6 +11,14 @@ const TodoComp = ({
   db,
   selectedMember,
   setSelectedMember,
+  code,
+  setCode,
+  members,
+  setMembers,
+  groupExists,
+  setGroupExists,
+  loading,
+  setLoading,
 }) => {
   const [selected, setSelected] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
@@ -18,10 +26,6 @@ const TodoComp = ({
   const [acctimeFormat, setaccTimeFormat] = useState("mins");
   const selectRef = useRef(null);
   const selectRef2 = useRef(null);
-  const [code, setCode] = useState("");
-  const [members, setMembers] = useState([]);
-  const [groupExists, setGroupExists] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter" && event.target.value.trim() !== "") {
@@ -111,46 +115,6 @@ const TodoComp = ({
     setTodos(newTodos);
   };
 
-  const fetchGroup = async () => {
-    const userDocRef = doc(db, "users", user.email);
-    const userDoc = await getDoc(userDocRef);
-    let membersnames = [];
-
-    if (userDoc.exists()) {
-      const groupCode = userDoc.data().group;
-
-      if (groupCode) {
-        setCode(groupCode);
-        setGroupExists(true);
-
-        const groupDocRef = doc(db, "groups", groupCode);
-        const groupDoc = await getDoc(groupDocRef);
-        if (groupDoc.exists()) {
-          const members = groupDoc
-            .data()
-            .members.filter((member) => member !== user.email);
-
-          for (const mem of members) {
-            const userDocRef = doc(db, "users", mem);
-            const userDoc = await getDoc(userDocRef);
-            if (userDoc.exists()) {
-              const membername = userDoc.data().name;
-              membersnames.push({ name: membername, email: mem });
-            } else {
-              console.log("error finding member");
-            }
-          }
-
-          setMembers(membersnames);
-          setLoading(false);
-        }
-      }
-    }
-  };
-  useEffect(() => {
-    fetchGroup();
-  }, []);
-
   return (
     <div className="flex pb-12 flex-col">
       {code && groupExists && (
@@ -187,6 +151,16 @@ const TodoComp = ({
           className=" p-2 w-80 rounded border border-gray-200 outline-none"
         />
       )}
+
+      {todos[format(currentDay, "yyyy-MM-dd")]?.length < 1 ||
+        (!todos[format(currentDay, "yyyy-MM-dd")] && (
+          <div className="mt-2">
+            {selectedMember != user.email
+              ? "No to-dos written yet. Remind your friends to take a second to set intentions. ✅"
+              : "No to-dos written yet. Take a second to set intentions! ✅"}
+          </div>
+        ))}
+
       <ul className="my-2  ">
         {todos &&
           todos[format(currentDay, "yyyy-MM-dd")] &&
