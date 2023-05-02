@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { format } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
 import { doc, setDoc, writeBatch, getDoc } from "firebase/firestore";
+import CryptoJS from "crypto-js";
 
 const Journal = ({
   currentDay,
@@ -26,6 +27,11 @@ const Journal = ({
   const selectRef = useRef(null);
   const [loadingnow, setloadingnow] = useState(false);
 
+  interface JournalEntry {
+    title: string;
+    content: string;
+  }
+
   useEffect(() => {
     setJournalInput(
       journalByDay[format(currentDay, "yyyy-MM-dd")]
@@ -44,14 +50,33 @@ const Journal = ({
 
   const handleSaveEntry = async () => {
     setloadingnow(true);
-    let thecontent = journalInput;
-    const newJournal = {
-      ...journalByDay,
+    const encryptedJournalByDay: { [key: string]: JournalEntry } = {};
+
+    // Loop through each journal entry and encrypt the content
+    for (const [date, entry] of Object.entries<JournalEntry>(journalByDay)) {
+      const encryptedContent = CryptoJS.AES.encrypt(
+        entry.content,
+        "helloisthisagoodkey"
+      ).toString();
+
+      encryptedJournalByDay[date] = {
+        ...entry,
+        content: encryptedContent,
+      };
+    }
+
+    // Add or overwrite the new journal entry
+    const newJournal: { [key: string]: JournalEntry } = {
+      ...encryptedJournalByDay,
       [format(currentDay, "yyyy-MM-dd")]: {
         title: format(currentDay, "EEEE, MMMM d, yyyy"),
-        content: journalInput,
+        content: CryptoJS.AES.encrypt(
+          journalInput,
+          "helloisthisagoodkey"
+        ).toString(),
       },
     };
+
     const batch = writeBatch(db);
 
     Object.keys(newJournal).forEach((date) => {
@@ -82,11 +107,15 @@ const Journal = ({
               className="p-2 w-full rounded border border-gray-200 outline-none"
             >
               <option value={user.email}>meee!</option>
-              {members.map((member) => (
-                <option key={member.email} value={member.email}>
-                  {member.name}
-                </option>
-              ))}
+              {members.map((member) => {
+                if (member.showJournals) {
+                  return (
+                    <option key={member.email} value={member.email}>
+                      {member.name}
+                    </option>
+                  );
+                }
+              })}
             </select>
           </div>
           <hr className="py-2" />

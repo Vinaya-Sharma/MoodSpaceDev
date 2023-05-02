@@ -1,6 +1,6 @@
 {
   "name": "moodspace",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "main": "index.js",
   "author": "Vinaya",
   "license": "MIT",
@@ -9,6 +9,7 @@
     "build": "webpack --progress --config webpack.prod.js"
   },
   "dependencies": {
+    "crypto-js": "^4.1.1",
     "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",
     "dotenv-webpack": "^8.0.1",

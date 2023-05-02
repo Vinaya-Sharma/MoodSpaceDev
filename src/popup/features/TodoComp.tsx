@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { format } from "date-fns";
 import { FaTrash } from "react-icons/fa";
 import { doc, getDoc } from "firebase/firestore";
@@ -132,11 +132,15 @@ const TodoComp = ({
               className="p-2 w-full rounded border border-gray-200 outline-none"
             >
               <option value={user.email}>meee!</option>
-              {members.map((member) => (
-                <option key={member.email} value={member.email}>
-                  {member.name}
-                </option>
-              ))}
+              {members.map((member) => {
+                if (member.showTodos) {
+                  return (
+                    <option key={member.email} value={member.email}>
+                      {member.name}
+                    </option>
+                  );
+                }
+              })}
             </select>
           </div>
           <hr className="py-2" />
@@ -160,7 +164,6 @@ const TodoComp = ({
               : "No to-dos written yet. Take a second to set intentions! ✅"}
           </div>
         ))}
-
       <ul className="my-2  ">
         {todos &&
           todos[format(currentDay, "yyyy-MM-dd")] &&
@@ -265,6 +268,7 @@ const TodoComp = ({
             </li>
           ))}
       </ul>
+
       {showPopup && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"

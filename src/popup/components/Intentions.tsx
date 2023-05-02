@@ -12,6 +12,7 @@ import {
   updateDoc,
   writeBatch,
 } from "firebase/firestore";
+import CryptoJS from "crypto-js";
 
 const Intentions = ({ db, user }) => {
   const [currentDay, setCurrentDay] = useState(new Date());
@@ -63,7 +64,14 @@ const Intentions = ({ db, user }) => {
             const userDoc = await getDoc(userDocRef);
             if (userDoc.exists()) {
               const membername = userDoc.data().name;
-              membersnames.push({ name: membername, email: mem });
+              const showTodos = userDoc.data().shareTodos;
+              const showJournals = userDoc.data().shareJournals;
+              membersnames.push({
+                name: membername,
+                email: mem,
+                showTodos: showTodos,
+                showJournals: showJournals,
+              });
             } else {
               console.log("error finding member");
             }
@@ -114,7 +122,15 @@ const Intentions = ({ db, user }) => {
       const journalsbyday = {};
       querySnapshot.forEach((doc) => {
         const date = doc.id;
-        const journal = doc.data();
+        const bytes = CryptoJS.AES.decrypt(
+          doc.data().content,
+          "helloisthisagoodkey"
+        );
+        const decryptedPlaintext = bytes.toString(CryptoJS.enc.Utf8);
+        const journal = {
+          title: doc.data().title,
+          content: decryptedPlaintext,
+        };
         console.log("journal", journal);
         journalsbyday[date] = journal;
       });

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   arrayUnion,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   serverTimestamp,
@@ -17,6 +18,10 @@ const AccountabilityPopup = ({ db, user, setShowPopup }) => {
   const [error, setError] = useState("");
   const [groupExists, setGroupExists] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [canEditTodos, setCanEditTodos] = useState(false);
+  const [canEditJournals, setCanEditJournals] = useState(false);
+  const [showTodos, setShowTodos] = useState(false);
+  const [showJournals, setShowJournals] = useState(false);
 
   const fetchGroup = async () => {
     const userDocRef = doc(db, "users", user.email);
@@ -25,6 +30,8 @@ const AccountabilityPopup = ({ db, user, setShowPopup }) => {
 
     if (userDoc.exists()) {
       const groupCode = userDoc.data().group;
+      setShowTodos(userDoc.data().shareTodos);
+      setShowJournals(userDoc.data().shareJournals);
 
       if (groupCode) {
         setCode(groupCode);
@@ -65,7 +72,7 @@ const AccountabilityPopup = ({ db, user, setShowPopup }) => {
       // Remove user from the group's members list
       const groupDocRef = doc(db, "groups", code);
       const groupDoc = await getDoc(groupDocRef);
-      if (groupDoc.exists()) {
+      if (groupDoc.exists() && members.length > 0) {
         const members = groupDoc
           .data()
           .members.filter((member) => member !== user.email);
@@ -74,12 +81,15 @@ const AccountabilityPopup = ({ db, user, setShowPopup }) => {
         // Remove group from the user's document
         const userDocRef = doc(db, "users", user.email);
         await updateDoc(userDocRef, { group: null });
-
-        // Clear state
-        setMembers([]);
-        setGroupExists(false);
-        setCode("");
+      } else {
+        // Delete the group doc if it's empty
+        await deleteDoc(groupDocRef);
       }
+
+      // Clear state
+      setMembers([]);
+      setGroupExists(false);
+      setCode("");
     } catch (error) {
       console.log("Error leaving group:", error);
     }
@@ -87,7 +97,7 @@ const AccountabilityPopup = ({ db, user, setShowPopup }) => {
 
   useEffect(() => {
     fetchGroup();
-  }, []);
+  }, [db, user]);
 
   const handleCodeChange = (e) => {
     setCode(e.target.value);
@@ -133,6 +143,22 @@ const AccountabilityPopup = ({ db, user, setShowPopup }) => {
     } else {
       setError("Invalid code, please try again.");
     }
+  };
+
+  const updateShowTodos = async (checked) => {
+    const userDocRef = doc(db, "users", user.email);
+    await updateDoc(userDocRef, {
+      shareTodos: checked,
+    });
+    fetchGroup();
+  };
+
+  const updateShowJournals = async (checked) => {
+    const userDocRef = doc(db, "users", user.email);
+    await updateDoc(userDocRef, {
+      shareJournals: checked,
+    });
+    fetchGroup();
   };
 
   const generateCode = () => {
@@ -225,6 +251,31 @@ const AccountabilityPopup = ({ db, user, setShowPopup }) => {
               <p className="text-xs text-gray-500 mb-4">
                 ^Share this code with others to join the group.
               </p>
+              <div className="flex py-2 gap-2">
+                <label htmlFor="todo">Share my to-dos</label>
+                <input
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    updateShowTodos(checked);
+                  }}
+                  type="checkbox"
+                  name="todo"
+                  value="todo"
+                  checked={showTodos}
+                />
+
+                <label htmlFor="journal">Share my journals</label>
+                <input
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    updateShowJournals(checked);
+                  }}
+                  type="checkbox"
+                  name="journal"
+                  value="journal"
+                  checked={showJournals}
+                />
+              </div>
 
               {!members.length ? (
                 <p className="text-md text-teal-500 font-medium mb-4">
@@ -272,6 +323,7 @@ const AccountabilityPopup = ({ db, user, setShowPopup }) => {
               {error && <p className="text-red-500">{error}</p>}
             </div>
           )}
+
           {groupExists && (
             <button
               onClick={handleLeaveGroup}
