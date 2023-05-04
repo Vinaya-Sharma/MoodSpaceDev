@@ -12,7 +12,6 @@ const Signup = ({ user, db, setFirstTime }) => {
     e.preventDefault();
     setSubmitting(true);
     let thereason = reason == "other" ? otherReason : reason;
-    console.log(reason);
 
     try {
       const userData = {
@@ -22,7 +21,6 @@ const Signup = ({ user, db, setFirstTime }) => {
         reason: thereason,
       };
       await setDoc(doc(db, "users", user.email), userData);
-      console.log("User data saved to Firestore:", userData);
     } catch (error) {
       console.error("Error writing user data to Firestore:", error);
     } finally {
@@ -91,7 +89,6 @@ const Signup = ({ user, db, setFirstTime }) => {
               value={reason}
               onChange={(e) => {
                 setReason(e.target.value);
-                console.log(reason);
               }}
             >
               <option value="productivity">Productivity</option>

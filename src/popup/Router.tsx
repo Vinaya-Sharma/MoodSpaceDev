@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import { BsPerson } from "react-icons/bs";
 
 function Navigation({ user, auth, db }) {
+  const [usePassword, setUsePassword] = useState(true);
   const tabs = [
     {
       name: "Calendar",
@@ -17,7 +18,14 @@ function Navigation({ user, auth, db }) {
     {
       name: "Reflect",
       icon: <FaCheck />,
-      component: <Intentions db={db} user={user} />,
+      component: (
+        <Intentions
+          db={db}
+          user={user}
+          usePassword={usePassword}
+          setUsePassword={setUsePassword}
+        />
+      ),
     },
     {
       name: "Analytics",
@@ -39,7 +47,13 @@ function Navigation({ user, auth, db }) {
 
   return (
     <div className="flex w-full flex-col overflow-scroll h-[600px]">
-      <Header user={user} auth={auth} db={db} />
+      <Header
+        user={user}
+        auth={auth}
+        db={db}
+        usePassword={usePassword}
+        setUsePassword={setUsePassword}
+      />
       <hr />
       <div className="flex p-8 min-h-[450px]">{activeTab.component}</div>
       <div className="w-full flex overflow-y-auto  justify-center items-center bg-teel text-white p-2 fixed bottom-0">

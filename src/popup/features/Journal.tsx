@@ -3,9 +3,12 @@ import { format } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
 import { doc, setDoc, writeBatch, getDoc } from "firebase/firestore";
 import CryptoJS from "crypto-js";
+import { BsFileLock } from "react-icons/bs";
+import { FaLockOpen } from "react-icons/fa";
 
 const Journal = ({
   currentDay,
+  setAccess,
   setJournalByDay,
   journalByDay,
   user,
@@ -23,6 +26,8 @@ const Journal = ({
   setJournalInput,
   setLoading,
   getjournaldata,
+  usePassword,
+  access,
 }) => {
   const selectRef = useRef(null);
   const [loadingnow, setloadingnow] = useState(false);
@@ -141,7 +146,7 @@ const Journal = ({
           }
         />
       </div>
-      <div>
+      <div className=" items-center flex gap-2">
         {selectedMember == user.email && (
           <button
             className={`${
@@ -158,6 +163,16 @@ const Journal = ({
           >
             Save Journal
           </button>
+        )}
+        {usePassword && (
+          <div
+            onClick={() => {
+              setAccess(false);
+            }}
+            className={`bg-cpink hover:bg-red-200 text-white mt-2 font-bold py-2.5 px-4 rounded focus:outline-none focus:shadow-outline `}
+          >
+            <FaLockOpen size={12} />
+          </div>
         )}
       </div>
     </div>

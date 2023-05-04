@@ -16,6 +16,17 @@ const Calendar = ({ db, user }) => {
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
   const [moodByDay, setMoodByDay] = useState({});
+  const [message, setMessage] = useState("");
+
+  const getMessage = async () => {
+    const messagesRef = doc(db, "message", "message");
+    const theMessage = (await getDoc(messagesRef)).data().text;
+    if (theMessage) {
+      setMessage(theMessage);
+    } else {
+      setMessage("");
+    }
+  };
 
   // Load mood data from local storage on mount
   useEffect(() => {
@@ -27,8 +38,9 @@ const Calendar = ({ db, user }) => {
         const mood = doc.data();
         moodByDay[date] = mood.emoji;
       });
-      console.log(moodByDay);
+
       setMoodByDay(moodByDay);
+      getMessage();
     });
     return unsubscribe;
   }, [user, db]);
@@ -41,7 +53,6 @@ const Calendar = ({ db, user }) => {
         batch.set(moodRef, { emoji: moodByDay[date] });
       });
       await batch.commit();
-      console.log("Documents written successfully");
     } catch (e) {
       console.error("Error adding documents: ", e);
     }
@@ -72,6 +83,11 @@ const Calendar = ({ db, user }) => {
 
   return (
     <div className="justify-center font-serif w-80 h-[475px]">
+      {message && (
+        <div className="p-2 mb-4 bg-teel bg-opacity-40  rounded-lg">
+          {message}
+        </div>
+      )}
       <div className="flex justify-between items-center mb-4">
         <div>
           {" "}

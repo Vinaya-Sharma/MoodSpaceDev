@@ -19,7 +19,7 @@ const Analytics = ({ db, user }) => {
 
     if (docSnap.exists()) {
       const data = docSnap.data().moodReasons;
-      console.log("Document data:", data);
+
       if (data) {
         setReasonsByDayData(data);
       }
@@ -38,7 +38,6 @@ const Analytics = ({ db, user }) => {
         const mood = doc.data();
         moodByDay[date] = mood.emoji;
       });
-      console.log(moodByDay);
       setMoodByDayData(moodByDay);
     });
     return unsubscribe;

@@ -13,9 +13,12 @@ import {
   writeBatch,
 } from "firebase/firestore";
 import CryptoJS from "crypto-js";
+import JournalRouter from "./JournalRouter";
 
-const Intentions = ({ db, user }) => {
+const Intentions = ({ db, user, usePassword, setUsePassword }) => {
   const [currentDay, setCurrentDay] = useState(new Date());
+  const [access, setAccess] = useState(false);
+  const [password, setPassword] = useState("");
 
   // getting journals + todos
   const [journalByDay, setJournalByDay] = useState({});
@@ -47,6 +50,11 @@ const Intentions = ({ db, user }) => {
 
     if (userDoc.exists()) {
       const groupCode = userDoc.data().group;
+      const usePass =
+        userDoc.data().usePassword != null ? userDoc.data().usePassword : true;
+
+      setUsePassword(usePass);
+      console.log(usePass);
 
       if (groupCode) {
         setCode(groupCode);
@@ -88,7 +96,6 @@ const Intentions = ({ db, user }) => {
   }, []);
 
   const gettododata = async () => {
-    console.log("eunning");
     const todosref = collection(db, "users", selectedMember, "todos");
     const unsubscribe = onSnapshot(todosref, (querySnapshot) => {
       const todosbyday = {};
@@ -97,7 +104,6 @@ const Intentions = ({ db, user }) => {
         const mood = doc.data().date;
         todosbyday[date] = mood;
       });
-      console.log(todosbyday);
       setTodosData(todosbyday);
     });
     return unsubscribe;
@@ -107,7 +113,6 @@ const Intentions = ({ db, user }) => {
   useEffect(() => {
     getjournaldata();
     gettododata();
-    console.log("changed to", selectedMember);
   }, [selectedMember]);
 
   const getjournaldata = async () => {
@@ -131,7 +136,7 @@ const Intentions = ({ db, user }) => {
           title: doc.data().title,
           content: decryptedPlaintext,
         };
-        console.log("journal", journal);
+
         journalsbyday[date] = journal;
       });
       setJournalByDay(journalsbyday);
@@ -150,12 +155,11 @@ const Intentions = ({ db, user }) => {
       const batch = writeBatch(db);
       Object.keys(todosData).forEach((date) => {
         const todosref = doc(db, "users", user.email, "todos", date);
-        console.log(date);
+
         batch.set(todosref, { date: todosData[date] });
       });
 
       await batch.commit();
-      console.log("Documents written successfully");
     } catch (e) {
       console.error("Error adding documents: ", e);
     }
@@ -254,7 +258,36 @@ const Intentions = ({ db, user }) => {
         </div>
       </div>
       {showJournal ? (
-        <div className="my-4 w-80 ">
+        usePassword ? (
+          <div className="my-4 w-80 ">
+            <JournalRouter
+              currentDay={currentDay}
+              setJournalByDay={setJournalByDay}
+              journalByDay={journalByDay}
+              user={user}
+              db={db}
+              selectedMember={selectedMember}
+              setSelectedMember={setSelectedMember}
+              code={code}
+              setCode={setCode}
+              members={members}
+              setMembers={setMembers}
+              groupExists={groupExists}
+              setGroupExists={setGroupExists}
+              loading={loading}
+              setLoading={setLoading}
+              journalInput={journalInput}
+              setJournalInput={setJournalInput}
+              getjournaldata={getjournaldata}
+              access={access}
+              setAccess={setAccess}
+              password={password}
+              setPassword={setPassword}
+              usePassword={usePassword}
+              setUsePassword={setUsePassword}
+            />
+          </div>
+        ) : (
           <Journal
             currentDay={currentDay}
             setJournalByDay={setJournalByDay}
@@ -274,8 +307,11 @@ const Intentions = ({ db, user }) => {
             journalInput={journalInput}
             setJournalInput={setJournalInput}
             getjournaldata={getjournaldata}
+            access={access}
+            setAccess={setAccess}
+            usePassword={usePassword}
           />
-        </div>
+        )
       ) : (
         <div className="my-4 w-80 ">
           <TodoComp

@@ -39,7 +39,6 @@ const ExportData = ({ db, user, setShowPopup }) => {
       }, {}),
       moodReasons: moodReasons.data().moodReasons,
     };
-    console.log(data.todos);
 
     // Convert JSON data to CSV format
     let csvData = "";

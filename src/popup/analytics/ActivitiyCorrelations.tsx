@@ -19,7 +19,6 @@ const ActivityCorrelations: React.FC<Props> = ({
   moodByDayData,
   activitiesByDay,
 }) => {
-  console.log(JSON.stringify(activitiesByDay));
   const [selectedEmotion, setSelectedEmotion] = useState<string | null>(null);
   const [activities, setActivities] = useState<
     { activity: string; count: number }[]
@@ -54,13 +53,11 @@ const ActivityCorrelations: React.FC<Props> = ({
 
   useEffect(() => {
     if (selectedEmotion) {
-      console.log(selectedEmotion);
       const activitiesForEmotion = getActivitiesForEmotion(selectedEmotion);
       const sortedActivities = Object.entries(activitiesForEmotion)
         .sort((a, b) => b[1] - a[1])
         .map(([activity, count]) => ({ activity, count }));
       setActivities(sortedActivities);
-      console.log(sortedActivities);
     } else {
       setActivities([]);
     }

@@ -40,9 +40,7 @@ const FirebaseApp = (props) => {
         return;
       }
       signInWithCredential(auth, GoogleAuthProvider.credential(null, token))
-        .then((res) => {
-          console.log("signed in!");
-        })
+        .then((res) => {})
         .catch((err) => {
           alert(`SSO ended with an error: ${err}`);
         });
@@ -59,7 +57,6 @@ const FirebaseApp = (props) => {
     const userRef = doc(db, "users", user.email);
     const docSnap = await getDoc(userRef);
     if (docSnap.exists()) {
-      console.log("User already exists:", docSnap.data());
       setFirstTime(false);
     } else {
       console.log("User does not already exist:");
