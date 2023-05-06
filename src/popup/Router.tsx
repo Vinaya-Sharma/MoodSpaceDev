@@ -4,11 +4,14 @@ import Intentions from "./components/Intentions";
 import Analytics from "./components/Analytics";
 import Accountability from "./components/Accountability";
 import { FaCalendarAlt, FaCheck, FaChartBar, FaCoffee } from "react-icons/fa";
+import { CgGym } from "react-icons/cg";
 import Header from "./components/Header";
 import { BsPerson } from "react-icons/bs";
+import Coach from "./ai/Coach";
 
 function Navigation({ user, auth, db }) {
   const [usePassword, setUsePassword] = useState(true);
+
   const tabs = [
     {
       name: "Calendar",
@@ -31,6 +34,11 @@ function Navigation({ user, auth, db }) {
       name: "Analytics",
       icon: <FaChartBar />,
       component: <Analytics db={db} user={user} />,
+    },
+    {
+      name: "Coach",
+      icon: <CgGym />,
+      component: <Coach db={db} user={user} />,
     },
     // {
     //   name: "Accountability",

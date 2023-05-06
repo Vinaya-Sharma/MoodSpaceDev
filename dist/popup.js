@@ -42,8 +42,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Calendar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Calendar */ "./src/popup/components/Calendar.tsx");
 /* harmony import */ var _components_Intentions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Intentions */ "./src/popup/components/Intentions.tsx");
 /* harmony import */ var _components_Analytics__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Analytics */ "./src/popup/components/Analytics.tsx");
-/* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
+/* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
+/* harmony import */ var react_icons_cg__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-icons/cg */ "./node_modules/react-icons/cg/index.esm.js");
 /* harmony import */ var _components_Header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Header */ "./src/popup/components/Header.tsx");
+/* harmony import */ var _ai_Coach__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ai/Coach */ "./src/popup/ai/Coach.tsx");
+
+
 
 
 
@@ -55,18 +59,23 @@ function Navigation({ user, auth, db }) {
     const tabs = [
         {
             name: "Calendar",
-            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__.FaCalendarAlt, null),
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_6__.FaCalendarAlt, null),
             component: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Calendar__WEBPACK_IMPORTED_MODULE_1__["default"], { db: db, user: user }),
         },
         {
             name: "Reflect",
-            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__.FaCheck, null),
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_6__.FaCheck, null),
             component: (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Intentions__WEBPACK_IMPORTED_MODULE_2__["default"], { db: db, user: user, usePassword: usePassword, setUsePassword: setUsePassword })),
         },
         {
             name: "Analytics",
-            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__.FaChartBar, null),
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_6__.FaChartBar, null),
             component: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Analytics__WEBPACK_IMPORTED_MODULE_3__["default"], { db: db, user: user }),
+        },
+        {
+            name: "Coach",
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_cg__WEBPACK_IMPORTED_MODULE_7__.CgGym, null),
+            component: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ai_Coach__WEBPACK_IMPORTED_MODULE_5__["default"], { db: db, user: user }),
         },
         // {
         //   name: "Accountability",
@@ -89,10 +98,213 @@ function Navigation({ user, auth, db }) {
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", { target: "_blank", rel: "noopener noreferrer", href: "https://www.buymeacoffee.com/vinaya", className: `flex  flex-col items-center mr-4 hover:text-white
           text-gray-300
             ` },
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__.FaCoffee, null),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_6__.FaCoffee, null),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "Coffee")))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Navigation);
+
+
+/***/ }),
+
+/***/ "./src/popup/ai/Coach.tsx":
+/*!********************************!*\
+  !*** ./src/popup/ai/Coach.tsx ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var openai__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! openai */ "./node_modules/openai/dist/index.js");
+/* harmony import */ var openai__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(openai__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! firebase/firestore */ "./node_modules/firebase/firestore/dist/esm/index.esm.js");
+/* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+const Chatbot = ({ db, user }) => {
+    const [input, setInput] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+    const [messageToDisplay, setMessageToDisplay] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null,
+            "Welcome to chat!",
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "underline" }, "At MoodSpace we're here for you and we want to help you reach your goals. \uD83C\uDFAF"),
+            " ",
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null),
+            "Everyones goals are different, from getting better grades, to learning a new hobby to just being happier. Wherever you are in life the MoodSpace coach wants to help.",
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null),
+            "Break down obstacles, discuss feelings and set actionable goals here!"),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "w-full justify-center flex items-center place-items-center" },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { onClick: () => {
+                    setPopup(false);
+                }, className: "px-4 place-self-center py-2 bg-teel text-white rounded-lg" }, "Start!"))));
+    const [messages, setMessages] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+    const [popup, setPopup] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
+    const [theUser, setTheUser] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+        name: "beautiful",
+        moodReasons: {
+            "2023-4-23": ["family", "school", "events"],
+        },
+    });
+    let options;
+    let oppsDif = 0;
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        const getData = () => __awaiter(void 0, void 0, void 0, function* () {
+            console.log(user.email);
+            const userDocRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.doc)(db, "users", user.email);
+            const userDoc = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.getDoc)(userDocRef);
+            if (userDoc.exists()) {
+                const userInfo = userDoc.data();
+                setTheUser({
+                    name: userInfo.name,
+                    moodReasons: userInfo.moodReasons,
+                });
+                console.log(userInfo);
+                setMessages([
+                    {
+                        content: `Hi ${userInfo.name}, how can I help you today! 🚀 options: [Set a goal, Reflect on my day, Get some inspiration, Talk, Therapy]`,
+                        role: "assistant",
+                    },
+                ]);
+            }
+            else {
+                console.log("no user info");
+            }
+        });
+        getData();
+    }, []);
+    const configuration = new openai__WEBPACK_IMPORTED_MODULE_1__.Configuration({
+        apiKey: "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",
+    });
+    const openai = new openai__WEBPACK_IMPORTED_MODULE_1__.OpenAIApi(configuration);
+    const sendMessage = (userInput) => __awaiter(void 0, void 0, void 0, function* () {
+        options = [];
+        const message = {
+            content: userInput,
+            role: "user",
+        };
+        setInput("");
+        try {
+            const response = yield openai.createChatCompletion({
+                model: "gpt-3.5-turbo",
+                temperature: 0.4,
+                max_tokens: 75,
+                top_p: 1,
+                messages: [
+                    {
+                        role: "system",
+                        content: "you are an ai personal coach your job is to 1.)guide the user through setting SMART goals,  2.)guide the user thought CBT to address mental health and wellness concerns.",
+                    },
+                    {
+                        role: "system",
+                        content: "lead the user thought things like Cognitive Restructuring, distorted thinking, Behavioral Activation, Graded Exposure, Problem-Solving, Thought Record, Relaxation Techniques, Goal Setting, Self-Monitoring",
+                    },
+                    {
+                        role: "system",
+                        content: "be short and consise, mimic user writing style, do not write a lot at once, be funny, use emojis and end with Good luck! when your done helping.",
+                    },
+                    {
+                        role: "system",
+                        content: "end each response you write with a list of short potential responses for the user to pick from. like this options:[]",
+                    },
+                    {
+                        role: "assistant",
+                        content: `hi, i'm your ai personal coach. whats your name 🤔. options: [${theUser.name}, your mom, 🤷🏼‍♀️]`,
+                    },
+                    {
+                        role: "user",
+                        content: `${theUser.name}`,
+                    },
+                    {
+                        role: "assistant",
+                        content: "nice to meet you 👋 how are you. options: [good, great, amazinnnng]",
+                    },
+                    {
+                        role: "user",
+                        content: "amazinnnng",
+                    },
+                    ...messages,
+                    { role: "user", content: userInput },
+                ],
+            });
+            const botMessage = {
+                content: response.data.choices[0].message.content,
+                role: "assistant",
+            };
+            setMessages([...messages, message, botMessage]);
+        }
+        catch (error) {
+            console.error(error);
+            setPopup(true);
+            setMessageToDisplay(react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null,
+                "Hey sorry... gimme a second to think. Trying to brainstorm the best way to help you! \uD83E\uDDD0",
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null)));
+        }
+    });
+    const handleKeyPress = (event, userInput) => {
+        if (event.key === "Enter") {
+            sendMessage(userInput);
+        }
+    };
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "h-screen mx-auto item-center justify-center w-full pb-12 p-4" },
+        popup && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "fixed inset-0 bg-black bg-opacity-50 w-full flex items-center justify-center", style: { zIndex: 9999 }, onClick: (event) => {
+                if (event.target === event.currentTarget) {
+                    setPopup(false);
+                }
+            } },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "bg-white w-full mx-2 rounded-lg p-4 " }, messageToDisplay))),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col flex-grow pb-52 overflow-y-auto" },
+            messages.map((message, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { key: index, className: `flex mb-2 ${message.role === "user" ? "justify-end" : "justify-start"}` },
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: `bg-gray-200 py-1 px-3 rounded-lg ${message.role === "user" ? "bg-blue-500 text-white" : ""}` }, message.content.includes("options: ") ? (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, (() => {
+                    const optionsStartIndex = message.content.indexOf("[");
+                    const optionsEndIndex = message.content.indexOf("]", optionsStartIndex);
+                    oppsDif = optionsEndIndex - optionsStartIndex;
+                    const optionsList = message.content.slice(optionsStartIndex + 1, optionsEndIndex);
+                    options = optionsList.split(", ");
+                    if (oppsDif > 75) {
+                        options.pop();
+                    }
+                    else if (oppsDif < 5) {
+                        options = [];
+                    }
+                    return message.content.slice(0, optionsStartIndex - 9);
+                })())) : (message.content))))),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col items-center px-10 w-full place-self-center fixed bottom-10 left-0  p-4 bg-white" },
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full place-self-center flex-wrap text-center items-center " }, options &&
+                    options.length > 0 &&
+                    options.map((option, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { key: index, className: "inline-block px-2 py-1 mr-2 mb-2 bg-blue-500 text-white rounded-lg", onClick: () => {
+                            console.log(option);
+                            setInput(option);
+                            sendMessage(option);
+                        } }, option)))),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "w-full flex place-self-center items-center" },
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "text", placeholder: "Type your message here...", value: input, onChange: (e) => setInput(e.target.value), onKeyPress: (e) => {
+                            handleKeyPress(e, input);
+                        }, className: "flex-grow py-2 px-4 mr-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" }),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { onClick: () => {
+                            sendMessage(input);
+                        }, className: "px-4 py-2 bg-blue-500 text-white rounded-lg" }, "Send"),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { className: "inline-block px-2 py-2 ml-2 text-[16px]  bg-red-500 text-white rounded-lg" },
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__.FaArrowAltCircleLeft, { width: 12 })))))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Chatbot);
 
 
 /***/ }),
@@ -612,7 +824,6 @@ const Intentions = ({ db, user, usePassword, setUsePassword }) => {
             const groupCode = userDoc.data().group;
             const usePass = userDoc.data().usePassword != null ? userDoc.data().usePassword : true;
             setUsePassword(usePass);
-            console.log(usePass);
             if (groupCode) {
                 setCode(groupCode);
                 setGroupExists(true);
@@ -668,7 +879,6 @@ const Intentions = ({ db, user, usePassword, setUsePassword }) => {
         gettododata();
     }, [selectedMember]);
     const getjournaldata = () => __awaiter(void 0, void 0, void 0, function* () {
-        console.log("running get journal data");
         const journalsbydayjournalref = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.collection)(db, "users", selectedMember, "journals");
         const unsubscribe = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.onSnapshot)(journalsbydayjournalref, (querySnapshot) => {
             const journalsbyday = {};
@@ -683,7 +893,6 @@ const Intentions = ({ db, user, usePassword, setUsePassword }) => {
                 journalsbyday[date] = journal;
             });
             setJournalByDay(journalsbyday);
-            console.log("journlas by day", journalByDay);
             const input = journalsbyday[(0,date_fns__WEBPACK_IMPORTED_MODULE_6__["default"])(currentDay, "yyyy-MM-dd")]
                 ? journalsbyday[(0,date_fns__WEBPACK_IMPORTED_MODULE_6__["default"])(currentDay, "yyyy-MM-dd")].content
                 : "";
@@ -2255,7 +2464,7 @@ const FIREBASE_CONFIG = {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_css-loader_dist_runtime_api_js-node_modules_css-loader_dist_runtime_sour-b53f7e","vendors-node_modules_crypto-js_index_js-node_modules_date-fns_esm_format_index_js-node_module-cf44ef","src_assets_css_tailwind_css"], () => (__webpack_require__("./src/popup/index.tsx")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_css-loader_dist_runtime_api_js-node_modules_css-loader_dist_runtime_sour-b53f7e","vendors-node_modules_crypto-js_index_js-node_modules_date-fns_esm_format_index_js-node_module-289293","src_assets_css_tailwind_css"], () => (__webpack_require__("./src/popup/index.tsx")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

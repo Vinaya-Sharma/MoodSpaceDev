@@ -54,7 +54,6 @@ const Intentions = ({ db, user, usePassword, setUsePassword }) => {
         userDoc.data().usePassword != null ? userDoc.data().usePassword : true;
 
       setUsePassword(usePass);
-      console.log(usePass);
 
       if (groupCode) {
         setCode(groupCode);
@@ -116,7 +115,6 @@ const Intentions = ({ db, user, usePassword, setUsePassword }) => {
   }, [selectedMember]);
 
   const getjournaldata = async () => {
-    console.log("running get journal data");
     const journalsbydayjournalref = collection(
       db,
       "users",
@@ -140,7 +138,7 @@ const Intentions = ({ db, user, usePassword, setUsePassword }) => {
         journalsbyday[date] = journal;
       });
       setJournalByDay(journalsbyday);
-      console.log("journlas by day", journalByDay);
+
       const input = journalsbyday[format(currentDay, "yyyy-MM-dd")]
         ? journalsbyday[format(currentDay, "yyyy-MM-dd")].content
         : "";
