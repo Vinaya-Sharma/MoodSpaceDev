@@ -13,8 +13,6 @@ Add MoodSpace to your browser, and add a little bit of colour to your daily rout
 
 <img width="290" alt="Screen Shot 2023-04-22 at 5 08 20 PM" src="https://user-images.githubusercontent.com/63084147/233806685-fa34fc1c-43c4-40e4-a038-c40caaa644db.png">
 
-https://user-images.githubusercontent.com/63084147/233811896-58190b5f-9bd5-4eca-9584-54e03f711977.mov
-
 <img width="290" alt="Screen Shot 2023-04-22 at 5 08 20 PM" src="https://user-images.githubusercontent.com/63084147/233806685-fa34fc1c-43c4-40e4-a038-c40caaa644db.png">
 
 ## You can grab the extension here from the chrome web store: https://chrome.google.com/webstore/detail/moodspace/jfkcnjgdhdndmoccolfpndjncofeoeoh?hl=en&authuser=0
